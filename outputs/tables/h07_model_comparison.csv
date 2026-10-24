@@ -1,0 +1,8 @@
+model,cv_2017_mae_kw,cv_2017_rmse_kw,turbines_best_on_cv_mae,test_2018_mae_kw,test_2018_rmse_kw,test_2018_energy_bias_pct,turbines_best_on_2018_mae,daily_std_pct,daily_iqr_pct,farm_wide_days,single_turbine_flag_days,chosen_single_turbine_days_also_flagged,fit_seconds_in_cv
+Gradient boosting (used),24.502,37.169,14,28.549,50.366,0.867,12,2.733,2.637,2.0,7.0,7.0,126.981
+Neural network (MLP),26.203,37.387,0,30.351,46.829,0.723,0,2.644,2.861,2.0,21.0,5.0,343.884
+Random forest,27.266,40.019,0,29.378,46.617,1.015,2,2.328,2.65,1.0,13.0,6.0,399.889
+Extra trees,29.682,44.852,0,29.754,47.418,0.933,0,2.496,2.891,1.0,31.0,7.0,101.176
+Spline regression,32.644,44.744,0,36.473,53.049,0.517,0,3.068,3.396,2.0,69.0,5.0,8.342
+Power curve (baseline),36.833,57.857,0,36.776,59.403,0.25,0,4.977,6.098,22.0,181.0,6.0,
+K-nearest neighbours,68.276,108.738,0,54.447,85.619,1.833,0,5.967,4.859,23.0,104.0,5.0,25.714

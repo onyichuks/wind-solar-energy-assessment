@@ -1,0 +1,99 @@
+turbine,model,mae_kw,rmse_kw,energy_bias_pct
+T01,Power curve (baseline),34.352,55.266,0.367
+T01,Gradient boosting (used),28.073,49.295,1.197
+T01,Random forest,28.736,45.424,1.264
+T01,Extra trees,28.558,45.566,1.086
+T01,K-nearest neighbours,54.924,86.879,1.81
+T01,Neural network (MLP),29.929,46.598,1.239
+T01,Spline regression,34.967,50.908,0.979
+T02,Power curve (baseline),35.444,56.803,0.332
+T02,Gradient boosting (used),30.004,52.01,1.413
+T02,Random forest,29.951,47.357,1.277
+T02,Extra trees,30.272,48.064,1.19
+T02,K-nearest neighbours,53.368,85.152,2.247
+T02,Neural network (MLP),31.301,47.149,1.433
+T02,Spline regression,36.622,54.077,0.872
+T04,Power curve (baseline),35.168,56.973,-0.603
+T04,Gradient boosting (used),26.769,47.264,0.061
+T04,Random forest,27.49,45.353,0.23
+T04,Extra trees,27.89,45.47,0.127
+T04,K-nearest neighbours,53.064,81.881,0.483
+T04,Neural network (MLP),29.182,46.309,-0.21
+T04,Spline regression,34.604,51.64,0.081
+T05,Power curve (baseline),35.947,60.007,0.964
+T05,Gradient boosting (used),28.794,59.458,1.564
+T05,Random forest,28.902,46.36,1.659
+T05,Extra trees,29.105,46.972,1.616
+T05,K-nearest neighbours,54.901,87.143,2.547
+T05,Neural network (MLP),30.573,47.805,1.576
+T05,Spline regression,36.198,53.353,1.259
+T06,Power curve (baseline),35.554,58.42,-0.346
+T06,Gradient boosting (used),27.623,51.964,0.248
+T06,Random forest,28.453,47.19,0.439
+T06,Extra trees,28.722,47.573,0.373
+T06,K-nearest neighbours,52.578,83.152,1.386
+T06,Neural network (MLP),28.759,46.241,0.15
+T06,Spline regression,34.704,52.904,-0.002
+T07,Power curve (baseline),33.74,55.142,-0.368
+T07,Gradient boosting (used),26.706,42.504,0.301
+T07,Random forest,28.349,44.911,0.635
+T07,Extra trees,28.692,46.067,0.51
+T07,K-nearest neighbours,50.009,81.496,1.715
+T07,Neural network (MLP),28.253,43.752,0.07
+T07,Spline regression,34.276,50.051,0.09
+T08,Power curve (baseline),34.486,55.473,0.942
+T08,Gradient boosting (used),28.421,49.337,1.808
+T08,Random forest,29.823,49.162,2.233
+T08,Extra trees,29.441,48.63,1.982
+T08,K-nearest neighbours,55.05,88.663,3.09
+T08,Neural network (MLP),30.485,49.341,1.711
+T08,Spline regression,36.212,53.559,1.604
+T09,Power curve (baseline),34.056,55.274,1.608
+T09,Gradient boosting (used),26.96,45.798,2.054
+T09,Random forest,28.362,43.826,2.344
+T09,Extra trees,28.606,44.503,2.335
+T09,K-nearest neighbours,51.044,82.813,3.679
+T09,Neural network (MLP),28.712,43.433,2.051
+T09,Spline regression,35.073,50.044,1.706
+T10,Power curve (baseline),33.766,55.58,-0.081
+T10,Gradient boosting (used),25.873,43.527,0.273
+T10,Random forest,27.135,43.302,0.539
+T10,Extra trees,28.091,44.888,0.632
+T10,K-nearest neighbours,50.285,84.135,2.321
+T10,Neural network (MLP),28.184,43.994,0.132
+T10,Spline regression,33.673,49.586,-0.148
+T11,Power curve (baseline),39.894,63.866,0.89
+T11,Gradient boosting (used),28.712,51.358,0.784
+T11,Random forest,29.793,46.532,0.908
+T11,Extra trees,30.35,48.356,0.829
+T11,K-nearest neighbours,55.753,88.889,1.672
+T11,Neural network (MLP),29.778,45.039,0.345
+T11,Spline regression,37.34,53.537,0.125
+T12,Power curve (baseline),41.485,64.894,0.529
+T12,Gradient boosting (used),32.051,56.148,1.597
+T12,Random forest,31.94,48.144,1.582
+T12,Extra trees,32.793,50.378,1.537
+T12,K-nearest neighbours,58.479,88.354,1.846
+T12,Neural network (MLP),33.831,50.412,1.201
+T12,Spline regression,41.672,57.097,1.166
+T13,Power curve (baseline),34.328,54.921,-0.612
+T13,Gradient boosting (used),26.422,46.829,-0.013
+T13,Random forest,26.903,43.565,0.045
+T13,Extra trees,27.615,44.278,0.039
+T13,K-nearest neighbours,56.623,84.898,0.886
+T13,Neural network (MLP),28.485,44.726,0.126
+T13,Spline regression,34.016,50.259,-0.354
+T14,Power curve (baseline),38.745,63.789,-0.472
+T14,Gradient boosting (used),29.906,52.884,0.294
+T14,Random forest,30.769,47.901,0.3
+T14,Extra trees,31.397,49.317,0.298
+T14,K-nearest neighbours,56.786,86.072,0.972
+T14,Neural network (MLP),32.947,49.658,0.211
+T14,Spline regression,37.281,54.012,-0.161
+T15,Power curve (baseline),47.903,75.234,0.347
+T15,Gradient boosting (used),33.366,56.751,0.56
+T15,Random forest,34.686,53.609,0.753
+T15,Extra trees,35.029,53.79,0.505
+T15,K-nearest neighbours,59.4,89.143,1.01
+T15,Neural network (MLP),34.499,51.144,0.091
+T15,Spline regression,43.986,61.662,0.019

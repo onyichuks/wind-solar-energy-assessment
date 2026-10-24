@@ -1,0 +1,7 @@
+step,kwh,pct_of_expected
+"Expected, before inverter limit",12922.41,100.0
+Inverter clipping (modelled),-0.0,-0.0
+Outages (no output in daylight),-97.33,-0.75
+Suspected snow cover,-92.93,-0.72
+"Other (model error and unmodelled effects, net)",520.18,4.03
+Actual,13252.34,102.55

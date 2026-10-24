@@ -1,0 +1,3 @@
+fit_year,test_year,Scaled measured distribution (used),Hourly variance ratio,Hourly linear regression,Machine learning (gradient boosting)
+2017,2018,-2.13,4.5,2.49,-0.55
+2018,2017,-0.56,8.47,6.23,-1.02

@@ -1,0 +1,5 @@
+start,end,meter,event,detail,handling
+2017-05-20,2017-05-20,grid meter,daily energy does not match the turbine meters,meter 121.6 MWh against turbines 93.3 MWh,day replaced by turbine energy less the median electrical loss
+2018-04-21,2018-05-16,PMU,one energy value repeated (counter gap spread evenly),3640 intervals at 1309.4 kWh,left out of the PMU scaling factor; grid meter used for these dates
+2020-06-09,2020-06-10,PMU,whole wind farm not exporting,"2 days, ERA5 mean wind 4.8 m/s, PMU plant power never above 0 kW, roughly 139 MWh not produced",real outage: kept in the actual production
+2020-09-26,2020-10-09,PMU,whole wind farm not exporting,"14 days, ERA5 mean wind 7.1 m/s, PMU plant power never above 114 kW, roughly 2479 MWh not produced",real outage: kept in the actual production

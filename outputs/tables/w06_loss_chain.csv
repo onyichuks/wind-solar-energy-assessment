@@ -1,0 +1,10 @@
+loss,group,loss_pct,efficiency_pct,lost_mwh,energy_after_mwh
+"Wake effect, internal (modelled)",Wakes,9.771,90.229,8297.336,76624.559
+"Wake effect, external (neighbouring wind farms)",Wakes,0.5,99.5,383.123,76241.436
+Turbine availability,Availability,3.0,97.0,2287.243,73954.193
+Balance of plant availability,Availability,0.5,99.5,369.771,73584.422
+Grid availability,Availability,0.5,99.5,367.922,73216.5
+Electrical losses to the revenue meter,Electrical,2.0,98.0,1464.33,71752.17
+"Turbine performance (sub-optimal operation, high wind hysteresis)",Turbine performance,1.2,98.8,861.026,70891.144
+"Environmental (icing, blade degradation)",Environmental,0.8,99.2,567.129,70324.015
+Curtailment (none known before construction),Curtailment,0.0,100.0,0.0,70324.015

@@ -1,0 +1,8 @@
+step,assumed_loss_pct,measured_loss_pct,change_mwh
+"Site flow (terrain speed-up, measured)",0.0,-0.16,113.38
+Power curve and turbine performance,1.2,0.44,544.65
+"Wakes (internal, measured on site)",9.77,4.53,4124.02
+"Availability (turbine, balance of plant, grid)",3.97,2.22,1367.07
+Electrical losses,2.0,0.98,796.24
+Curtailment,0.0,0.0,0.0
+"Environmental allowance, long-term method and other (residual)",,,1869.15

@@ -1,0 +1,946 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Wind and Solar Energy Assessment</title>
+<meta name="description" content="Pre-construction style wind energy yield assessment for the Penmanshiel wind farm compared with 58 months of actual production, plus an independent energy estimate and performance review for a separate solar PV system in Colorado, built on public data.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,500..800&family=IBM+Plex+Mono:wght@400;500&family=Source+Sans+3:wght@400;600;700&display=swap">
+<style>
+/* Layout: assessment report as a control-room sheet. Headline strip, tab rail, then panels that each lead with one plain finding. */
+:root {
+  --bg: #f3f6f8; --surface: #ffffff; --surface-2: #eaf0f4;
+  --ink: #0f1a24; --ink-2: #475665; --ink-3: #75838f; --line: #d6dee5;
+  --accent: #1c5cab; --accent-ink: #ffffff; --accent-soft: #dce8f7;
+  --s1: #2a78d6; --s2: #eb6834; --s3: #1baf7a; --s4: #eda100;
+  --muted-mark: #b8c3cc;
+  --seq-0: #cde2fb; --seq-2: #3987e5; --seq-4: #0d366b;
+  --pos: #1baf7a; --neg: #eb6834; --total: #475665;
+  --font-display: "Archivo", "Arial Narrow", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Source Sans 3", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-data: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+  --radius: 10px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0d1318; --surface: #141c24; --surface-2: #1b252f; --ink: #e6edf3; --ink-2: #a8b5c2; --ink-3: #7b8996;
+    --line: #283440; --accent: #6aa5ee; --accent-ink: #0d1318; --accent-soft: #1b3150;
+    --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500; --muted-mark: #3f4b57;
+    --seq-0: #184f95; --seq-2: #3987e5; --seq-4: #b7d3f6;
+    --pos: #199e70; --neg: #d95926; --total: #a8b5c2;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0d1318; --surface: #141c24; --surface-2: #1b252f; --ink: #e6edf3; --ink-2: #a8b5c2; --ink-3: #7b8996;
+  --line: #283440; --accent: #6aa5ee; --accent-ink: #0d1318; --accent-soft: #1b3150;
+  --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500; --muted-mark: #3f4b57;
+  --seq-0: #184f95; --seq-2: #3987e5; --seq-4: #b7d3f6;
+  --pos: #199e70; --neg: #d95926; --total: #a8b5c2;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 16px; line-height: 1.5; }
+a { color: var(--accent); }
+a:focus-visible, button:focus-visible, input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
+.wrap { max-width: 1240px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; margin: 0; letter-spacing: -0.01em; }
+
+.top { background: var(--surface); border-bottom: 1px solid var(--line); }
+.top .wrap { padding-block: 28px 22px; display: grid; gap: 14px; }
+.eyebrow { font-family: var(--font-data); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); }
+.top h1 { font-size: clamp(28px, 4vw, 42px); font-weight: 750; font-stretch: 88%; line-height: 1.05; }
+.lede { max-width: 76ch; color: var(--ink-2); margin: 0; }
+.links { display: flex; flex-wrap: wrap; gap: 10px; }
+.btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 999px; border: 1px solid var(--line); color: var(--ink); text-decoration: none; font-weight: 600; font-size: 14px; background: var(--surface); }
+.btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.btn:hover { border-color: var(--accent); }
+
+.kpis { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; margin-top: 8px; }
+.kpi { background: var(--surface); padding: 14px 16px; display: grid; gap: 2px; align-content: start; }
+.kpi .label { font-size: 13px; color: var(--ink-2); }
+.kpi .value { font-family: var(--font-display); font-size: 28px; font-weight: 700; font-stretch: 90%; font-variant-numeric: tabular-nums; line-height: 1.1; }
+.kpi .value small { font-family: var(--font-body); font-size: 14px; font-weight: 600; color: var(--ink-2); margin-left: 3px; }
+.kpi .note { font-size: 12px; color: var(--ink-3); }
+
+.tabs { position: sticky; top: 0; z-index: 5; background: color-mix(in srgb, var(--bg) 92%, transparent); backdrop-filter: blur(6px); border-bottom: 1px solid var(--line); }
+.tabs .wrap { display: flex; gap: 4px; overflow-x: auto; padding-block: 8px; scrollbar-width: none; }
+.tab { font: inherit; font-weight: 600; font-size: 15px; padding: 8px 14px; border-radius: 8px; border: 1px solid transparent; background: transparent; color: var(--ink-2); cursor: pointer; white-space: nowrap; }
+.tab[aria-selected="true"] { background: var(--surface); border-color: var(--line); color: var(--ink); box-shadow: inset 0 -2px 0 var(--accent); }
+.tab:hover { color: var(--ink); }
+
+main .wrap { padding-block: 24px 40px; }
+.view { display: grid; gap: 22px; }
+.view[hidden] { display: none; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; display: grid; gap: 14px; min-width: 0; }
+.panel header { display: grid; gap: 4px; }
+.panel h2 { font-size: 22px; font-weight: 700; font-stretch: 92%; }
+.finding { margin: 0; color: var(--ink-2); max-width: 82ch; }
+.finding b { color: var(--ink); font-weight: 600; }
+.grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.grid3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+.chart { width: 100%; min-height: 300px; }
+.chart.tall { min-height: 380px; }
+.chart.short { min-height: 230px; }
+.subhead { font-size: 13px; font-weight: 600; color: var(--ink-2); margin: 0 0 2px; }
+.controls { display: flex; flex-wrap: wrap; gap: 14px 22px; align-items: end; }
+.fgroup { display: grid; gap: 6px; }
+.flabel { font-size: 12px; font-weight: 600; color: var(--ink-2); letter-spacing: 0.02em; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { position: relative; }
+.chip input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.chip span { display: inline-block; padding: 6px 11px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); font-size: 14px; cursor: pointer; user-select: none; }
+.chip input:checked + span { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.pvals { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.pval { border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; }
+.pval .k { font-size: 12px; color: var(--ink-2); }
+.pval .v { font-family: var(--font-display); font-size: 22px; font-weight: 700; font-stretch: 90%; font-variant-numeric: tabular-nums; }
+.tablebox { overflow: auto; border: 1px solid var(--line); border-radius: 8px; }
+table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+th, td { text-align: left; padding: 7px 9px; border-bottom: 1px solid var(--line); }
+th { background: var(--surface-2); font-weight: 600; color: var(--ink-2); font-size: 12px; position: sticky; top: 0; }
+td.r, th.r { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+tr.total td { font-weight: 700; }
+details { border-top: 1px solid var(--line); padding-top: 12px; }
+summary { cursor: pointer; font-weight: 600; color: var(--ink-2); }
+.method { columns: 2 340px; column-gap: 28px; color: var(--ink-2); font-size: 15px; }
+.method p { margin: 0 0 10px; break-inside: avoid; }
+.method b { color: var(--ink); }
+.concl { margin: 0; padding-left: 22px; color: var(--ink-2); font-size: 15px; max-width: 980px; }
+.concl li { margin-bottom: 8px; }
+.concl b { color: var(--ink); }
+.note-box { background: var(--surface-2); border-radius: 8px; padding: 10px 14px; color: var(--ink-2); font-size: 14px; margin: 0; }
+.scenario { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 18px; display: grid; gap: 12px; margin-bottom: 22px; }
+.scenario[hidden] { display: none; }
+.scenario .row { display: flex; flex-wrap: wrap; gap: 12px 26px; align-items: end; }
+.scenario h2 { font-size: 17px; font-weight: 700; font-stretch: 92%; }
+.slider { display: grid; gap: 4px; min-width: 170px; }
+.slider .top { display: flex; justify-content: space-between; gap: 10px; font-size: 12px; font-weight: 600; color: var(--ink-2); }
+.slider .top output { font-family: var(--font-data); color: var(--ink); }
+.slider input[type=range] { width: 100%; accent-color: var(--accent); }
+.readout { font-size: 14px; color: var(--ink-2); }
+.readout b { color: var(--ink); font-family: var(--font-display); font-size: 18px; }
+.btn-reset { font: inherit; font-size: 13px; padding: 6px 12px; border-radius: 8px; border: 1px solid var(--line); background: transparent; color: var(--ink-2); cursor: pointer; }
+.btn-reset:hover { color: var(--ink); border-color: var(--accent); }
+select { font: inherit; font-size: 14px; padding: 6px 8px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); }
+.tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+@media (max-width: 760px) { .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+footer { color: var(--ink-3); font-size: 13px; }
+footer .wrap { padding-block: 0 36px; display: grid; gap: 6px; }
+
+@media (max-width: 980px) { .kpis { grid-template-columns: repeat(3, minmax(0, 1fr)); } .grid3 { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 760px) {
+  .grid2 { grid-template-columns: minmax(0, 1fr); }
+  .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .pvals { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .panel { padding: 16px; }
+}
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; transition: none !important; } }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <div class="eyebrow">Energy assessment · public data · wind and solar</div>
+    <h1>Penmanshiel wind farm: predicted against actual</h1>
+    <p class="lede">A pre-construction style energy yield assessment for a 14-turbine, 28.7 MW wind farm in the Scottish Borders, then a test of that estimate against 58 months of metered production, with the gap traced cause by cause. A machine learning model of each turbine then flags underperformance. A separate solar module reviews a small PV system on a different site: NREL in Golden, Colorado.</p>
+    <div class="links">
+      <a class="btn primary" href="{{REPO_URL}}" target="_blank" rel="noopener">View the code on GitHub</a>
+      <a class="btn" href="{{REPO_URL}}/blob/main/docs/DATASET.md" target="_blank" rel="noopener">About the datasets</a>
+      <a class="btn" href="{{REPO_URL}}/blob/main/docs/EXECUTIVE_SUMMARY.md" target="_blank" rel="noopener">Executive summary</a>
+      <a class="btn" href="{{REPO_URL}}/blob/main/docs/REPORT.md" target="_blank" rel="noopener">Research report</a>
+      <a class="btn" href="{{REPO_URL}}/blob/main/docs/ML_TECHNICAL_NOTE.md" target="_blank" rel="noopener">Machine learning note</a>
+    </div>
+    <div class="kpis" id="kpis"></div>
+  </div>
+</header>
+
+<nav class="tabs" aria-label="Sections">
+  <div class="wrap" role="tablist">
+    <button class="tab" role="tab" id="tab-yield" aria-controls="view-yield" aria-selected="true">Wind: energy yield</button>
+    <button class="tab" role="tab" id="tab-actual" aria-controls="view-actual" aria-selected="false">Wind: predicted against actual</button>
+    <button class="tab" role="tab" id="tab-health" aria-controls="view-health" aria-selected="false">Wind: turbine health (machine learning)</button>
+    <button class="tab" role="tab" id="tab-solar" aria-controls="view-solar" aria-selected="false">Solar (Colorado): performance</button>
+    <button class="tab" role="tab" id="tab-method" aria-controls="view-method" aria-selected="false">Objectives and conclusions</button>
+  </div>
+</nav>
+
+<main>
+  <div class="wrap">
+    <section class="scenario" id="scenario" aria-label="Estimate assumptions">
+      <div class="row">
+        <h2>Try other assumptions</h2>
+        <span class="readout" id="readout"></span>
+        <button class="btn-reset" id="reset" type="button">Reset to the central estimate</button>
+      </div>
+      <div class="row">
+        <div class="fgroup"><span class="flabel" id="lbl-lt">Long-term method</span><div class="chips" id="ltm" role="radiogroup" aria-labelledby="lbl-lt"></div></div>
+        <div class="fgroup"><span class="flabel" id="lbl-model">Wake model</span><div class="chips" id="models" role="radiogroup" aria-labelledby="lbl-model"></div></div>
+      </div>
+      <div class="row" id="sliders"></div>
+    </section>
+    <!-- ================= WIND YIELD ================= -->
+    <section class="view" id="view-yield" role="tabpanel" aria-labelledby="tab-yield">
+      <section class="panel">
+        <header><h2>Wind resource at hub height</h2><p class="finding" id="f-resource"></p></header>
+        <div class="grid3">
+          <div><p class="subhead">Long-term wind rose: share of hours by direction</p><div class="chart" id="c-rose"></div></div>
+          <div><p class="subhead">Long-term wind speed distribution</p><div class="chart" id="c-speed"></div></div>
+          <div><p class="subhead">Hourly site wind against ERA5 100 m wind, 2017 campaign</p><div class="chart" id="c-mcp"></div></div>
+        </div>
+        <details><summary>Long-term method cross-check (fit on one year, predict the other)</summary>
+          <div class="tablebox" style="margin-top:10px"><table id="t-cv"></table></div>
+        </details>
+      </section>
+
+      <section class="panel">
+        <header><h2>Layout and wake losses</h2><p class="finding" id="f-wakes"></p></header>
+        <div class="controls">
+          <div class="fgroup"><span class="flabel" id="lbl-turb">Turbine details (or click a turbine on the map)</span><div class="chips" id="turbs" role="radiogroup" aria-labelledby="lbl-turb"></div></div>
+        </div>
+        <div class="tiles" id="turb-tiles"></div>
+        <div class="grid2">
+          <div><p class="subhead">Turbine layout, coloured by modelled wake loss (percent)</p><div class="chart tall" id="c-layout"></div></div>
+          <div><p class="subhead">Modelled wake loss by turbine (percent of gross energy)</p><div class="chart tall" id="c-wake-turb"></div></div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <header><h2>Net energy, uncertainty and P values</h2><p class="finding" id="f-pvals"></p></header>
+        <div class="controls">
+          <div class="fgroup"><span class="flabel" id="lbl-period">Averaging period</span><div class="chips" id="periods" role="radiogroup" aria-labelledby="lbl-period"></div></div>
+        </div>
+        <div class="pvals" id="pvals"></div>
+        <div class="grid2">
+          <div><p class="subhead">Loss chain from gross to net energy</p><div class="tablebox"><table id="t-chain"></table></div></div>
+          <div><p class="subhead">Probability that annual energy exceeds a value</p><div class="chart" id="c-exceed"></div></div>
+        </div>
+        <details><summary>Uncertainty budget</summary><div class="tablebox" style="margin-top:10px"><table id="t-unc"></table></div></details>
+      </section>
+    </section>
+
+    <!-- ================= WIND ACTUAL ================= -->
+    <section class="view" id="view-actual" role="tabpanel" aria-labelledby="tab-actual" hidden>
+      <section class="panel">
+        <header><h2>Month by month: what the estimate predicted and what was metered</h2><p class="finding" id="f-monthly"></p></header>
+        <div class="controls">
+          <div class="fgroup"><span class="flabel">Period</span><div class="period" style="display:flex;gap:6px;align-items:center;flex-wrap:wrap"><select id="m-from" aria-label="From month"></select><span class="flabel">to</span><select id="m-to" aria-label="To month"></select></div></div>
+          <div class="fgroup"><span class="flabel">Quick pick</span><div class="chips" id="m-quick" role="radiogroup" aria-label="Quick period"></div></div>
+        </div>
+        <div class="tiles" id="m-tiles"></div>
+        <div class="chart tall" id="c-monthly"></div>
+        <div class="chart short" id="c-ratio"></div>
+        <details><summary>Yearly totals</summary><div class="tablebox" style="margin-top:10px"><table id="t-yearly"></table></div></details>
+      </section>
+
+      <section class="panel">
+        <header><h2>Why actual production beat the estimate (2017 and 2018)</h2><p class="finding" id="f-gap"></p></header>
+        <div class="grid2">
+          <div><p class="subhead">From pre-construction P50 to actual, 2017 and 2018 on a long-term basis (MWh per year)</p><div class="chart tall" id="c-gap"></div></div>
+          <div><p class="subhead">Assumed against measured</p><div class="tablebox"><table id="t-gap"></table></div>
+            <p class="note-box" style="margin-top:12px" id="gap-note"></p></div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <header><h2>Wake losses: model against measurement</h2><p class="finding" id="f-sector"></p></header>
+        <div class="controls">
+          <div class="fgroup"><span class="flabel" id="lbl-model2">Compare with model</span><div class="chips" id="models2" role="radiogroup" aria-labelledby="lbl-model2"></div></div>
+        </div>
+        <div class="chart tall" id="c-sector"></div>
+      </section>
+
+      <section class="panel">
+        <header><h2>Terrain: not every position sees the same wind</h2><p class="finding" id="f-terrain"></p></header>
+        <div class="grid2">
+          <div><p class="subhead">Measured free-stream speed factor against ground elevation</p><div class="chart" id="c-terrain"></div></div>
+          <div><p class="subhead">Actual share of farm energy over predicted share, by turbine</p><div class="chart" id="c-share"></div></div>
+        </div>
+      </section>
+    </section>
+
+    <!-- ================= TURBINE HEALTH ================= -->
+    <section class="view" id="view-health" role="tabpanel" aria-labelledby="tab-health" hidden>
+      <section class="panel">
+        <header><h2>A machine learning model of each turbine's normal behaviour</h2><p class="finding" id="f-h-model"></p></header>
+        <div class="controls">
+          <div class="fgroup"><span class="flabel" id="lbl-hturb">Turbine</span><div class="chips" id="h-turbs" role="radiogroup" aria-labelledby="lbl-hturb"></div></div>
+        </div>
+        <div class="tiles" id="h-acc-tiles"></div>
+        <div class="grid2">
+          <div><p class="subhead">Error on 2018, a year the models never saw (mean absolute error, kW)</p><div class="chart tall" id="c-h-acc"></div></div>
+          <div><p class="subhead">What the models rely on (share of permutation importance)</p><div class="chart short" id="c-h-imp"></div>
+            <p class="subhead" id="h-scatter-title"></p><div class="chart" id="c-h-scatter"></div></div>
+        </div>
+      </section>
+      <section class="panel">
+        <header><h2>Day by day: when did a turbine fall short of its own normal?</h2><p class="finding" id="f-h-days"></p></header>
+        <div class="controls">
+          <label class="slider" style="min-width:260px"><span class="top"><span>Flag days below expected by more than</span><output id="o-h-thr"></output></span><input type="range" id="s-h-thr" min="2" max="15" step="0.5" value="5" aria-label="Flagging threshold, percent below expected"></label>
+        </div>
+        <div class="tiles" id="h-day-tiles"></div>
+        <p class="subhead" id="h-days-title"></p>
+        <div class="chart tall" id="c-h-days"></div>
+        <div class="tablebox" style="margin-top:12px"><table id="t-h-events"></table></div>
+        <p class="note-box" style="margin-top:12px" id="h-note"></p>
+      </section>
+    </section>
+
+    <!-- ================= SOLAR ================= -->
+    <section class="view" id="view-solar" role="tabpanel" aria-labelledby="tab-solar" hidden>
+      <section class="panel">
+        <header><h2>Independent energy estimate, tested against 2012 and 2013</h2><p class="finding" id="f-sest"></p></header>
+        <div class="pvals" id="sest-kpis"></div>
+        <div class="grid2">
+          <div><p class="subhead">What explains the gap, 2012 and 2013 (kWh)</p><div class="chart" id="c-sest-gap"></div></div>
+          <div><div class="tablebox"><table id="t-sest"></table></div></div>
+        </div>
+      </section>
+      <section class="panel">
+        <header><h2>Solar PV performance review: NREL system in Golden, Colorado (a separate site)</h2><p class="finding" id="f-solar"></p></header>
+        <div class="controls">
+          <div class="fgroup"><span class="flabel" id="lbl-year">Year</span><div class="chips" id="s-years" role="radiogroup" aria-labelledby="lbl-year"></div></div>
+        </div>
+        <div class="pvals" id="solar-kpis"></div>
+        <div class="chart tall" id="c-solar-monthly"></div>
+        <div class="chart short" id="c-solar-pi"></div>
+      </section>
+      <section class="panel">
+        <header><h2>Days that tell the story</h2><p class="finding" id="f-days"></p></header>
+        <div class="controls">
+          <div class="fgroup"><span class="flabel" id="lbl-day">Example day</span><div class="chips" id="days" role="radiogroup" aria-labelledby="lbl-day"></div></div>
+        </div>
+        <div class="grid2">
+          <div><p class="subhead" id="day-title"></p><div class="chart" id="c-day"></div></div>
+          <div><p class="subhead">Hourly actual against expected power (kW)</p><div class="chart" id="c-solar-scatter"></div></div>
+        </div>
+      </section>
+      <section class="panel">
+        <header><h2>Where the energy went</h2><p class="finding" id="f-solar-loss"></p></header>
+        <div class="grid2">
+          <div><div class="chart" id="c-solar-waterfall"></div></div>
+          <div><div class="tablebox"><table id="t-solar-year"></table></div></div>
+        </div>
+      </section>
+    </section>
+
+    <!-- ================= METHOD ================= -->
+    <section class="view" id="view-method" role="tabpanel" aria-labelledby="tab-method" hidden>
+      <section class="panel">
+        <header><h2>Objective</h2><p class="finding">Pre-construction energy yield assessments decide whether wind farms are financed, but they are rarely checked against what the farm later produces. Penmanshiel is one of very few wind farms with a complete public operating record, so every major assumption can be measured after the fact. The project set out to answer five questions:</p></header>
+        <ol class="concl">
+          <li><b>The estimate.</b> What would a pre-construction style assessment have predicted, using only information available before construction?</li>
+          <li><b>The test.</b> How did actual production compare, and was the difference within the stated uncertainty?</li>
+          <li><b>The explanation.</b> Which assumptions explain the difference, measured from turbine SCADA?</li>
+          <li><b>Machine learning.</b> Can a normal-behaviour model predict each turbine's power better than a power curve, and does it pick out underperformance that the operator's records confirm?</li>
+          <li><b>Solar (a separate site).</b> How well would an independent, pre-construction style estimate have predicted a monitored PV system's energy (NREL, Golden, Colorado), and where was energy lost?</li>
+        </ol>
+      </section>
+      <section class="panel">
+        <header><h2>Conclusions</h2></header>
+        <ol class="concl" id="conclusions"></ol>
+        <p class="note-box" style="margin-top:12px">The full write-up, with abstract, methods, results tables, discussion, limitations and references, is in the <a href="{{REPO_URL}}/blob/main/docs/REPORT.md" target="_blank" rel="noopener">research report</a>.</p>
+      </section>
+      <section class="panel">
+        <header><h2>How it was done</h2></header>
+        <div class="method">
+          <p><b>Data checks.</b> Downloads are verified against the published checksums. Every dataset is checked for gaps, duplicates, clock problems, out-of-range and frozen readings, and the meters are checked against each other and against the summed turbine meters. This found a stuck wind vane, one corrupt day of revenue meter data (replaced from the turbine meters), a counter gap in the controller meter, and a 14-day whole-farm outage in autumn 2020. The checks are repeatable with <code>scripts/check_data.py</code> and described in the dataset guide.</p>
+          <p><b>Virtual met mast.</b> The open data have no met mast, so one was built from the turbines: for each 10-minute interval the nacelle anemometers of turbines with no neighbour upwind (sectors from IEC 61400-12-1 Annex A) are averaged. Calendar 2017 stands in for the 12-month on-site measurement campaign a developer would run before construction.</p>
+          <p><b>Long-term correction.</b> The 2017 site wind is related to 25 years (2000 to 2024) of ERA5 reanalysis by direction sector. The measured distribution is scaled sector by sector to the long-term mean and reweighted to long-term sector frequencies. This kept the measured distribution shape and, in cross-validation between the two measured years, came within about 2 percent in energy, where hourly regression methods over-predicted by 2 to 9 percent. A machine learning method (gradient-boosted trees on ERA5 wind, direction, shear, temperature, time of day and season) was as accurate, within about 1 percent, and gives almost the same P50; it is offered in the long-term method selector.</p>
+          <p><b>Energy and wakes.</b> The Senvion MM82 reference power curve is adjusted to the long-term site air density (ERA5, moved to hub height). DTU's PyWake runs four engineering wake models on the real layout over a 5 degree by 0.5 m/s frequency table. The central estimate uses the Park model with the classic onshore wake decay constant (k = 0.075); the default Bastankhah Gaussian, TurbOPark and Niayifar models are sensitivities.</p>
+          <p><b>Losses and uncertainty.</b> Availability, electrical, turbine performance and environmental losses use typical pre-construction assumptions. Uncertainties for measurement, long-term correction, flow, power curve, wakes and losses are combined by root sum of squares, with wind speed terms converted to energy by the modelled sensitivity ratio. Interannual variability is added for 1, 10 and 20-year P values.</p>
+          <p><b>Predicted against actual.</b> The estimate is turned into a month-by-month prediction with an energy index: ERA5 wind each hour through the same wake-modelled farm power table, scaled so its long-term mean equals the P50. The monthly index uses an hourly sector regression; its level bias cancels because each month is divided by the index's own 25-year mean. Revenue meter energy (gaps filled from the wind farm controller meter) is compared for every complete month from September 2016 to June 2021, with an OpenOA-style regression as a cross-check.</p>
+          <p><b>Explaining the gap.</b> Turbine SCADA for 2017 and 2018 measures most assumptions over the same two years as the actual end point: availability from the operator's lost production records (checked with an independent calculation), electrical losses from turbine meters against the revenue meter, the power curve from the fleet's measured curve (IEC method of bins), terrain speed-up from free-stream nacelle wind at each position, and wake losses from production against terrain-adjusted expected power. Curtailment comes from the operator's turbine records for 2017 and 2018 (none), with the wind farm power setpoint as a check from December 2018. Each measured value replaces its assumption in turn; what is left is the residual.</p>
+          <p><b>Turbine health (machine learning).</b> One gradient-boosted tree model per turbine (scikit-learn) learns expected power from nacelle wind speed, turbulence, wind direction, and ERA5 air temperature and air density. Gradient boosting was chosen over random forest, extra trees, a neural network, k-nearest neighbours and spline regression by cross-validation within 2017. It is trained on 2017 normal operation, after a robust filter drops points far from each turbine's typical power, and tested on 2018 against each turbine's own power curve built from the same data. Daily actual energy is compared with expected energy; days more than a set percentage short are flagged, and a day when most turbines fall short together is treated as farm-wide. Flags are checked against the operator's performance-loss records and the turbine status logs.</p>
+          <p><b>Solar.</b> NREL PVDAQ system 50 (fixed tilt 45 degrees, azimuth 158 degrees). Daylight saving clock shifts are found with PVAnalytics (production midpoint against modelled solar noon) and corrected; values are moved back one 15-minute step, which gave the best clear-sky fit. Expected power uses pvlib: Erbs decomposition of satellite irradiance, Perez transposition, incidence angle losses, SAPM cell temperature and PVWatts. DC capacity is fitted on clear-sky periods. Outages, suspected snow cover and clipping are separated from the remaining performance gap. An independent estimate, made without the measured output, uses NREL's rated size, the generic PVWatts losses, 0.5% a year ageing and the satellite irradiance corrected month by month to 25 years of ERA5; it is then tested against 2012 and 2013 production, and the satellite irradiance is checked against NREL's on-site sensor.</p>
+          <p><b>Limits.</b> Nacelle anemometers are not calibrated met mast instruments, and their turbulence reads higher than ambient. Measured wake losses are a scaled estimate that depends on the terrain adjustment. Turbine SCADA covers 2017 and 2018 only, so 2019 to 2021 is compared but only partly explained: the meters show the 2020 outages, nothing more. The turbine health models learn 2017 as normal, so a fault present all through 2017 would not be flagged. The solar system is a small research array with satellite irradiance, so absolute performance ratio values depend on the fitted capacity.</p>
+        </div>
+      </section>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Analysis and dashboard by Onyi Chuks. Source code and full method: <a href="{{REPO_URL}}" target="_blank" rel="noopener">{{REPO_LABEL}}</a>.</span>
+    <span>Data: Penmanshiel wind farm data published by Cubico Sustainable Investments on Zenodo under CC BY 4.0. ERA5 reanalysis (Copernicus Climate Change Service) via the Open-Meteo archive. NREL PVDAQ system 50 data via the PVAnalytics example data.</span>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/plotly.js-dist-min@2.35.2/plotly.min.js"></script>
+<script>
+const D = /*__DATA__*/null;
+(function () {
+  const W = D.wind, R = W.results, EY = R.energy_yield, PA = R.predicted_vs_actual, OPS = R.operational, S = D.solar;
+  const MODELS = Object.keys(EY.wake_models);
+  const CENTRAL = MODELS.find((k) => EY.wake_models[k].label === EY.central_wake_model) || MODELS[0];
+  const css = (v) => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+  const fmt = (v, d = 0) => (v == null || !isFinite(v)) ? "n/a" : Number(v).toLocaleString("en-CA", { minimumFractionDigits: d, maximumFractionDigits: d });
+  const gwh = (mwh, d = 1) => fmt(mwh / 1000, d);
+  const pct = (v, d = 1) => fmt(v, d) + "%";
+  const signed = (v, d = 1) => (v > 0 ? "+" : "") + fmt(v, d);
+  const CONFIG = { displaylogo: false, responsive: true, modeBarButtonsToRemove: ["lasso2d", "select2d", "autoScale2d", "toggleSpikelines", "hoverCompareCartesian"] };
+
+  function baseLayout(extra) {
+    const line = css("--line");
+    const axis = { gridcolor: line, linecolor: line, zerolinecolor: line, tickfont: { color: css("--ink-2") }, title: { font: { color: css("--ink-2") } }, automargin: true };
+    const layout = {
+      paper_bgcolor: "rgba(0,0,0,0)", plot_bgcolor: "rgba(0,0,0,0)",
+      font: { family: css("--font-body"), color: css("--ink-2"), size: 12 },
+      margin: { l: 56, r: 12, t: 8, b: 40 }, xaxis: { ...axis }, yaxis: { ...axis },
+      legend: { orientation: "h", x: 0, y: -0.2, font: { color: css("--ink-2") } },
+      hoverlabel: { bgcolor: css("--surface"), bordercolor: css("--line"), font: { color: css("--ink"), family: css("--font-body") } },
+      bargap: 0.25,
+    };
+    for (const k in (extra || {})) {
+      if (layout[k] && typeof layout[k] === "object" && !Array.isArray(layout[k]) && typeof extra[k] === "object" && !Array.isArray(extra[k])) layout[k] = { ...layout[k], ...extra[k] };
+      else layout[k] = extra[k];
+    }
+    return layout;
+  }
+  const draw = (id, traces, layout) => Plotly.react(id, traces, baseLayout(layout), CONFIG);
+  const table = (id, head, rows, opts = {}) => {
+    const el = document.getElementById(id);
+    const r = opts.right || [];
+    el.innerHTML = "<thead><tr>" + head.map((h, i) => `<th${r.includes(i) ? ' class="r"' : ""}>${h}</th>`).join("") + "</tr></thead><tbody>" +
+      rows.map((row) => `<tr${row.cls ? ` class="${row.cls}"` : ""}>` + row.cells.map((c, i) => `<td${r.includes(i) ? ' class="r"' : ""}>${c}</td>`).join("") + "</tr>").join("") + "</tbody>";
+  };
+  const radios = (boxId, name, items, current, onChange) => {
+    const box = document.getElementById(boxId); box.innerHTML = "";
+    items.forEach(([value, label]) => {
+      const l = document.createElement("label"); l.className = "chip";
+      l.innerHTML = `<input type="radio" name="${name}" value="${value}" ${String(value) === String(current) ? "checked" : ""}><span>${label}</span>`;
+      box.appendChild(l);
+    });
+    box.addEventListener("change", (e) => onChange(e.target.value));
+  };
+
+  // ---------- scenario engine: every wind number follows the selected assumptions ----------
+  const LTM = EY.lt_methods, LTKEYS = Object.keys(LTM), MEAS = W.measured;
+  const chainPct = (name) => (EY.loss_chain.find((c) => c.loss.startsWith(name)) || { loss_pct: 0 }).loss_pct;
+  const DEF = {
+    avail: 100 * (1 - chainPct("Turbine availability") / 100) * (1 - chainPct("Balance of plant") / 100) * (1 - chainPct("Grid availability") / 100),
+    elec: chainPct("Electrical"), perf: chainPct("Turbine performance"), env: chainPct("Environmental"), ext: chainPct("Wake effect, external"),
+  };
+  const SLIDERS = [
+    { key: "avail", label: "Availability, all causes", min: 92, max: 99.5, step: 0.1, unit: "%" },
+    { key: "elec", label: "Electrical losses", min: 0.5, max: 4, step: 0.1, unit: "%" },
+    { key: "perf", label: "Turbine performance loss", min: 0, max: 3, step: 0.1, unit: "%" },
+    { key: "env", label: "Environmental loss", min: 0, max: 3, step: 0.1, unit: "%" },
+  ];
+  const state = { model: CENTRAL, model2: CENTRAL, ltm: "scaled", period: 10, day: "clear", turbine: null, mFrom: 0, mTo: W.monthly.month.length - 1, year: "all",
+                  avail: DEF.avail, elec: DEF.elec, perf: DEF.perf, env: DEF.env, hTurbine: "all", hThr: 5 };
+  const pv = (n) => EY.p_values.find((r) => r.period_years === n);
+  const p50c = EY.p50_mwh, opAep = PA.operational_aep_ratio_method_mwh;
+  function scenario() {
+    const L = LTM[state.ltm], wake = L.wake_loss_pct[state.model];
+    const rows = [
+      ["Wake effect, internal (" + EY.wake_models[state.model].label.replace(/, .*$/, "") + ")", wake],
+      ["Wake effect, external (neighbouring wind farms)", DEF.ext],
+      ["Availability, all causes", 100 - state.avail],
+      ["Electrical losses to the revenue meter", state.elec],
+      ["Turbine performance", state.perf],
+      ["Environmental (icing, blade degradation)", state.env],
+      ["Curtailment (none known before construction)", 0],
+    ];
+    let e = L.gross_mwh; const chain = rows.map(([name, loss]) => { e *= 1 - loss / 100; return { name, loss, after: e }; });
+    return { gross: L.gross_mwh, wake, chain, p50: e, mean: L.mean_ms };
+  }
+  const isCentral = () => state.model === CENTRAL && state.ltm === "scaled" && SLIDERS.every((s) => Math.abs(state[s.key] - DEF[s.key]) < 1e-9);
+
+  function renderResource() {
+    const WR = R.wind_resource;
+    document.getElementById("f-resource").innerHTML =
+      `Long-term free-stream wind at the 59 m hub is <b>${fmt(WR.long_term_mean_ms, 2)} m/s</b> (Weibull A ${fmt(WR.weibull_A, 2)}, k ${fmt(WR.weibull_k, 2)}), from south-west and west most often. ` +
+      `2017, the campaign year, was windier than average (wind index ${fmt(WR.campaign_year_wind_index, 3)}), so the measured ${fmt(WR.campaign_mean_ms, 2)} m/s was scaled down. ` +
+      `ERA5 alone, sheared to hub height, reads <b>${fmt(Math.abs(WR.era5_bias_vs_site_pct), 1)}% low</b> at this hill site, which is why on-site measurement matters.`;
+    const rose = W.rose;
+    draw("c-rose", [{ type: "barpolar", r: rose.freq, theta: rose.centre, marker: { color: css("--s1"), line: { color: css("--surface"), width: 2 } },
+      customdata: rose.mean, hovertemplate: "%{theta}°: %{r:.1f}% of hours<br>mean %{customdata:.1f} m/s<extra></extra>" }],
+      { polar: { bgcolor: "rgba(0,0,0,0)", angularaxis: { direction: "clockwise", rotation: 90, gridcolor: css("--line"), linecolor: css("--line"), tickfont: { color: css("--ink-2") } },
+        radialaxis: { gridcolor: css("--line"), tickfont: { color: css("--ink-3"), size: 10 }, ticksuffix: "%", angle: 90 } }, margin: { l: 40, r: 40, t: 20, b: 20 }, showlegend: false });
+    draw("c-speed", [{ type: "bar", x: W.speed_hist.bins.map((b) => b + 0.5), y: W.speed_hist.pct, marker: { color: css("--s1") },
+      hovertemplate: "%{x:.1f} m/s: %{y:.1f}% of hours<extra></extra>" }],
+      { xaxis: { title: { text: "Wind speed (m/s)" }, range: [0, 22] }, yaxis: { title: { text: "Share of hours (%)" } }, bargap: 0.08, showlegend: false });
+    const sc = W.mcp_scatter;
+    draw("c-mcp", [{ type: "scattergl", mode: "markers", x: sc.ref, y: sc.site, marker: { color: css("--s1"), size: 5, opacity: 0.35 },
+      hovertemplate: "ERA5 %{x:.1f} m/s<br>site %{y:.1f} m/s<extra></extra>", name: "Hours" },
+      { type: "scatter", mode: "lines", x: [0, 25], y: [0, 25], line: { color: css("--ink-3"), width: 1, dash: "dot" }, hoverinfo: "skip", name: "1 to 1" }],
+      { xaxis: { title: { text: "ERA5 100 m (m/s)" }, range: [0, 25] }, yaxis: { title: { text: "Virtual mast 59 m (m/s)" }, range: [0, 25] }, showlegend: false,
+        annotations: [{ x: 3, y: 23, xanchor: "left", text: `R² ${fmt(WR.hourly_r2_era5_100m_2017, 2)}`, showarrow: false, font: { color: css("--ink-2") } }] });
+    const cv = WR.mcp_cross_validation_energy_error_pct;
+    const cols = Object.keys(cv[0]).filter((k) => !k.endsWith("_year"));
+    table("t-cv", ["Fit year", "Test year", ...cols], cv.map((r) => ({ cells: [r.fit_year, r.test_year, ...cols.map((c) => signed(r[c], 1) + "%")] })), { right: cols.map((_, i) => i + 2) });
+  }
+
+  function erf(x) { const t = 1 / (1 + 0.3275911 * Math.abs(x)); const y = 1 - (((((1.061405429 * t - 1.453152027) * t) + 1.421413741) * t - 0.284496736) * t + 0.254829592) * t * Math.exp(-x * x); return x >= 0 ? y : -y; }
+  function renderSector() {
+    const E = W.sector_eff, m = state.model2;
+    const deficit = (arr) => arr.reduce((a, v, i) => a + (1 - v) * E.lt_weight[i], 0);
+    document.getElementById("f-sector").innerHTML =
+      `Wake efficiency by direction: actual over unwaked expected energy at 5 to 11 m/s, where wakes matter most. Measured efficiency sits above every model in most sectors. Weighted by hours in each sector, the efficiency shortfall in this speed range is <b>${pct(100 * deficit(E.measured), 1)}</b> measured against ${pct(100 * deficit(E[m]), 1)} for ${EY.wake_models[m].label}. ` +
+      `Sectors with few hours (north-east) are noisy; values above 100% show where the single terrain factor per turbine, or differences between anemometers, do not hold.`;
+    const lab = E.centre_deg.map((d) => d + "°");
+    const traces = MODELS.filter((k) => k !== m).map((k) => ({ type: "scatter", mode: "lines", x: lab, y: E[k].map((v) => 100 * v), name: EY.wake_models[k].label, line: { color: css("--muted-mark"), width: 1.5 }, hovertemplate: "%{x}: %{y:.1f}%<extra>" + EY.wake_models[k].label + "</extra>" }));
+    traces.push({ type: "scatter", mode: "lines+markers", x: lab, y: E[m].map((v) => 100 * v), name: EY.wake_models[m].label, line: { color: css("--s2"), width: 2 }, marker: { size: 8 }, hovertemplate: "%{x}: %{y:.1f}%<extra>model</extra>" });
+    traces.push({ type: "scatter", mode: "lines+markers", x: lab, y: E.measured.map((v) => 100 * v), name: "Measured (terrain-adjusted)", line: { color: css("--s1"), width: 2 }, marker: { size: 8 },
+      customdata: E.n, hovertemplate: "%{x}: %{y:.1f}% (%{customdata:,} intervals)<extra>measured</extra>" });
+    draw("c-sector", traces, { yaxis: { title: { text: "Wake efficiency (%)" } }, xaxis: { title: { text: "Wind direction sector" }, type: "category" }, hovermode: "x unified" });
+  }
+
+  function renderTerrain() {
+    const T = W.terrain, L = W.layout;
+    const lo = T.turbine[T.speed_factor.indexOf(Math.min(...T.speed_factor))], hi = T.turbine[T.speed_factor.indexOf(Math.max(...T.speed_factor))];
+    const ratios = L.actual_vs_predicted_share;
+    const adjTot = L.turbine.reduce((a, t, i) => a + L.predicted_net_of_wake_mwh[i] * T.gross_energy_ratio[T.turbine.indexOf(t)], 0), baseTot = L.predicted_net_of_wake_mwh.reduce((a, v) => a + v, 0);
+    const after = L.turbine.map((t, i) => ratios[i] / (T.gross_energy_ratio[T.turbine.indexOf(t)] * baseTot / adjTot));
+    document.getElementById("f-terrain").innerHTML =
+      `Free-stream wind at the windiest position is <b>${fmt(100 * (Math.max(...T.speed_factor) / Math.min(...T.speed_factor) - 1), 0)}%</b> above the calmest (${hi} against ${lo}, on the lowest ground), and the factors track elevation (correlation ${fmt(OPS.terrain_vs_elevation_r, 2)}). ` +
+      `Turbine-level predictions were out by ${signed(100 * (Math.min(...ratios) - 1), 0)} to ${signed(100 * (Math.max(...ratios) - 1), 0)}%. Applying the measured factors narrows that to ${signed(100 * (Math.min(...after) - 1), 0)} to ${signed(100 * (Math.max(...after) - 1), 0)}%, so terrain explains part of it; wake model error and anemometer differences make up the rest (T01 looks worse after the adjustment, a sign of anemometer bias). ` +
+      `Across the farm the terrain effect is small (${signed(OPS.site_flow_energy_effect_pct, 1)}%), but turbine-level work needs a flow model (WAsP or CFD).`;
+    draw("c-terrain", [{ type: "scatter", mode: "markers+text", x: T.elevation_m, y: T.speed_factor, text: T.turbine, textposition: "top center", textfont: { size: 10, color: css("--ink-2") },
+      marker: { color: css("--s1"), size: 10, line: { color: css("--surface"), width: 2 } }, hovertemplate: "%{text}: %{x:.0f} m ground, factor %{y:.3f}<extra></extra>" }],
+      { xaxis: { title: { text: "Ground elevation (m)" } }, yaxis: { title: { text: "Speed factor (farm mean = 1)" } }, showlegend: false });
+    const ord = L.turbine.map((t, i) => i).sort((a, b) => L.elevation_m[a] - L.elevation_m[b]);
+    draw("c-share", [{ type: "bar", x: ord.map((i) => L.turbine[i]), y: ord.map((i) => 100 * (L.actual_vs_predicted_share[i] - 1)),
+      marker: { color: ord.map((i) => L.actual_vs_predicted_share[i] >= 1 ? css("--pos") : css("--neg")) },
+      customdata: ord.map((i) => L.elevation_m[i]), hovertemplate: "%{x} (%{customdata:.0f} m): %{y:+.1f}%<extra></extra>" }],
+      { xaxis: { type: "category", title: { text: "Turbines, lowest ground to highest" } }, yaxis: { title: { text: "Actual over predicted share (%)" } }, showlegend: false });
+  }
+
+  // ---------- KPIs ----------
+  function renderKpis() {
+    const sc = scenario(), avIdx = W.gap.step.findIndex((s) => s.startsWith("Availability"));
+    const tiles = [
+      [isCentral() ? "Pre-construction P50" : "P50, your assumptions", gwh(sc.p50), "GWh/yr", `Net energy, ${fmt(100 * sc.p50 / (R.site.capacity_mw * 8766), 1)}% capacity factor`],
+      ["Actual, long-term", gwh(opAep), "GWh/yr", `From ${PA.months_compared} metered months`],
+      ["Actual against P50", signed(100 * (opAep / sc.p50 - 1)), "%", opAep >= sc.p50 ? "Above the estimate" : "Below the estimate"],
+      ["Wake loss, measured", fmt(MEAS.wake_loss_pct[state.model], 1), "%", `Estimate scaled from the ${EY.wake_models[state.model].label.split(" (")[0]} model, which assumed ${fmt(EY.wake_models[state.model].wake_loss_pct, 1)}%`],
+      ["Availability", fmt(OPS.energy_availability_pct, 1), "%", `Measured 2017 to 2018 (${fmt(state.avail, 1)}% assumed)`],
+      ["Solar, actual against independent estimate", signed(S.results.independent_estimate.actual_vs_predicted_same_weather_pct, 1), "%", "Colorado system, 2012 and 2013"],
+    ];
+    document.getElementById("kpis").innerHTML = tiles.map(([l, v, u, n]) =>
+      `<div class="kpi"><span class="label">${l}</span><span class="value">${v}<small>${u}</small></span><span class="note">${n}</span></div>`).join("");
+    const sc0 = p50c;
+    document.getElementById("readout").innerHTML = `P50 <b>${gwh(sc.p50)}</b> GWh/yr ` + (isCentral() ? "(central estimate)" : `(${signed(100 * (sc.p50 / sc0 - 1))}% against the central ${gwh(sc0)})`);
+  }
+
+  function buildScenarioBar() {
+    radios("ltm", "ltm", LTKEYS.map((k) => [k, LTM[k].label.replace(" (used)", "")]), state.ltm, (v) => { state.ltm = v; refreshWind(); });
+    radios("models", "model", MODELS.map((k) => [k, EY.wake_models[k].label.replace(/, .*$/, "").replace(/ \(.*\)/, "")]), state.model, (v) => { state.model = v; refreshWind(); });
+    const box = document.getElementById("sliders");
+    box.innerHTML = SLIDERS.map((s) => `<label class="slider"><span class="top"><span>${s.label}</span><output id="o-${s.key}"></output></span>` +
+      `<input type="range" id="s-${s.key}" min="${s.min}" max="${s.max}" step="${s.step}" value="${state[s.key]}" aria-label="${s.label}"></label>`).join("");
+    SLIDERS.forEach((s) => {
+      const el = document.getElementById("s-" + s.key), out = document.getElementById("o-" + s.key);
+      const sync = () => { out.textContent = fmt(state[s.key], 1) + s.unit; };
+      sync();
+      // the central value is not always on the slider's 0.1 grid: within half a step of it, use it exactly
+      el.addEventListener("input", () => { state[s.key] = Math.abs(+el.value - DEF[s.key]) < s.step / 2 ? DEF[s.key] : +el.value; sync(); refreshWind(); });
+    });
+    document.getElementById("reset").addEventListener("click", () => {
+      Object.assign(state, { model: CENTRAL, ltm: "scaled", avail: DEF.avail, elec: DEF.elec, perf: DEF.perf, env: DEF.env });
+      SLIDERS.forEach((s) => { document.getElementById("s-" + s.key).value = state[s.key]; document.getElementById("o-" + s.key).textContent = fmt(state[s.key], 1) + s.unit; });
+      document.querySelectorAll('#ltm input').forEach((i) => { i.checked = i.value === "scaled"; });
+      document.querySelectorAll('#models input').forEach((i) => { i.checked = i.value === CENTRAL; });
+      refreshWind();
+    });
+  }
+  function refreshWind() {
+    renderKpis();
+    if (rendered.yield) { renderWakes(); renderPvals(); }
+    if (rendered.actual) { renderMonthly(); renderGap(); }
+  }
+
+  // ---------- wind yield: layout, wakes, turbine details ----------
+  function renderWakes() {
+    const L = W.layout, m = state.model, wl = L["wake_loss_pct_" + m], mo = EY.wake_models[m];
+    const worst = L.turbine[wl.indexOf(Math.max(...wl))];
+    const sc = scenario();
+    document.getElementById("f-wakes").innerHTML =
+      `${mo.label}: wake loss <b>${fmt(sc.wake, 1)}%</b> of gross energy across the farm (long-term wind: ${LTM[state.ltm].label.replace(" (used)", "")}). The south-western edge turbines (T01, T02) lose least; ` +
+      `${worst} loses most (${fmt(Math.max(...wl), 1)}%; turbine values use the measured long-term wind). The four models span ${fmt(Math.min(...MODELS.map((k) => LTM[state.ltm].wake_loss_pct[k])), 1)} to ${fmt(Math.max(...MODELS.map((k) => LTM[state.ltm].wake_loss_pct[k])), 1)}%. ` +
+      `The central estimate uses the Park model with the classic onshore setting.`;
+    const cmax = Math.max(...MODELS.flatMap((k) => L["wake_loss_pct_" + k]));
+    const sel = state.turbine ? L.turbine.indexOf(state.turbine) : -1;
+    draw("c-layout", [{ type: "scatter", mode: "markers+text", x: L.x_m, y: L.y_m, text: L.turbine, textposition: "top center", textfont: { color: css("--ink-2"), size: 11 },
+      marker: { size: L.turbine.map((t, i) => i === sel ? 24 : 18), color: wl, cmin: 0, cmax: cmax, colorscale: [[0, css("--seq-0")], [0.5, css("--seq-2")], [1, css("--seq-4")]],
+        line: { color: L.turbine.map((t, i) => i === sel ? css("--s2") : css("--surface")), width: L.turbine.map((t, i) => i === sel ? 3 : 2) },
+        colorbar: { title: { text: "%", font: { color: css("--ink-2") } }, tickfont: { color: css("--ink-2") }, thickness: 10, outlinewidth: 0 } },
+      customdata: L.elevation_m.map((e, i) => [e, wl[i]]),
+      hovertemplate: "%{text}<br>wake loss %{customdata[1]:.1f}%<br>ground %{customdata[0]:.0f} m<br>click for details<extra></extra>" }],
+      { xaxis: { title: { text: "East (m)" }, scaleanchor: "y", zeroline: false }, yaxis: { title: { text: "North (m)" }, zeroline: false }, showlegend: false,
+        annotations: [{ x: 0.02, y: 0.02, xref: "paper", yref: "paper", xanchor: "left", text: "Prevailing wind: south-west", showarrow: false, font: { color: css("--ink-3"), size: 11 } }] });
+    const lay = document.getElementById("c-layout");
+    if (!lay._clickBound) { lay.on("plotly_click", (ev) => { const t = ev.points[0].text; state.turbine = state.turbine === t ? null : t; syncTurbChips(); renderWakes(); }); lay._clickBound = true; }
+    const order = L.turbine.map((t, i) => i).sort((a, b) => wl[a] - wl[b]);
+    draw("c-wake-turb", [{ type: "bar", orientation: "h", y: order.map((i) => L.turbine[i]), x: order.map((i) => wl[i]),
+      marker: { color: order.map((i) => i === sel ? css("--s2") : css("--s1")) }, hovertemplate: "%{y}: %{x:.1f}%<extra></extra>" }],
+      { xaxis: { title: { text: "Wake loss (%)" } }, yaxis: { type: "category" }, showlegend: false, margin: { l: 44, r: 12, t: 8, b: 40 } });
+    renderTurbTiles();
+  }
+  function syncTurbChips() { document.querySelectorAll("#turbs input").forEach((i) => { i.checked = (i.value === "all" && !state.turbine) || i.value === state.turbine; }); }
+  function renderTurbTiles() {
+    const L = W.layout, T = W.terrain, box = document.getElementById("turb-tiles");
+    if (!state.turbine) {
+      const avg = (a) => a.reduce((x, y) => x + y, 0) / a.length;
+      box.innerHTML = [["Turbines", "14 x Senvion MM82"], ["Hub height and rotor", "59 m, 82 m"], ["Average availability, 2017 to 2018", pct(avg(L.availability_pct), 1)], ["Mean nacelle wind, 2017 to 2018", fmt(avg(L.mean_nacelle_wind_ms), 2) + " m/s"]]
+        .map(([k, v]) => `<div class="pval"><div class="k">${k}</div><div class="v" style="font-size:18px">${v}</div></div>`).join("");
+      return;
+    }
+    const i = L.turbine.indexOf(state.turbine), j = T.turbine.indexOf(state.turbine);
+    const tiles = [
+      ["Turbine", `${state.turbine}, ground ${fmt(L.elevation_m[i], 0)} m`],
+      ["Modelled wake loss", pct(L["wake_loss_pct_" + state.model][i], 1)],
+      ["Measured speed factor", `${fmt(T.speed_factor[j], 3)} (${fmt(T.intervals[j])} intervals)`],
+      ["Actual over predicted share", signed(100 * (L.actual_vs_predicted_share[i] - 1), 1) + "%"],
+      ["Availability, 2017 to 2018", pct(L.availability_pct[i], 2)],
+      ["Mean nacelle wind", fmt(L.mean_nacelle_wind_ms[i], 2) + " m/s"],
+      ["Predicted net of wakes", gwh(L.predicted_net_of_wake_mwh[i], 2) + " GWh/yr"],
+      ["Gross energy", gwh(L.gross_mwh[i], 2) + " GWh/yr"],
+    ];
+    box.innerHTML = tiles.map(([k, v]) => `<div class="pval"><div class="k">${k}</div><div class="v" style="font-size:18px">${v}</div></div>`).join("");
+  }
+
+  function renderPvals() {
+    const sc = scenario(), n = state.period, row = pv(n), ratio = sc.p50 / p50c;
+    const p = (k) => row[k] * ratio;
+    document.getElementById("f-pvals").innerHTML =
+      `Gross energy of ${gwh(sc.gross)} GWh/yr becomes <b>P50 ${gwh(sc.p50)} GWh/yr</b> net (${pct(100 * sc.p50 / sc.gross, 1)} of gross)` + (isCentral() ? "" : `, against ${gwh(p50c)} for the central estimate`) + `. ` +
+      `Total uncertainty over ${n} year${n > 1 ? "s" : ""} is ${fmt(row.total_uncertainty_pct, 1)}%; every 1% of wind speed moves energy by ${fmt(EY.sensitivity_ratio, 2)}%. Uncertainty is held at the central case when assumptions change.`;
+    document.getElementById("pvals").innerHTML = [["P50", p("P50_mwh")], ["P75", p("P75_mwh")], ["P90", p("P90_mwh")], ["P99", p("P99_mwh")]]
+      .map(([k, v]) => `<div class="pval"><div class="k">${k}, ${n}-year</div><div class="v">${gwh(v)} <small style="font-size:13px;font-weight:600">GWh/yr</small></div></div>`).join("");
+    const rows = [{ cells: ["Gross energy", "", gwh(sc.gross, 2)] }].concat(sc.chain.map((c) => ({ cells: [c.name, fmt(c.loss, 1) + "%", gwh(c.after, 2)] })));
+    rows.push({ cls: "total", cells: ["Net energy, P50", fmt(100 * (1 - sc.p50 / sc.gross), 1) + "% total", gwh(sc.p50, 2)] });
+    table("t-chain", ["Step", "Loss", "GWh/yr after"], rows, { right: [1, 2] });
+    const sd = row.total_uncertainty_pct / 100 * sc.p50, xs = [], ys = [];
+    // the long-term actual is a long-term mean, so its exceedance level uses the uncertainty of a long-term mean
+    const ltUnc = Math.hypot(EY.historical_uncertainty_pct, EY.climate_uncertainty_pct) / 100;
+    const ltExceed = 100 * (1 - 0.5 * (1 + erf(((opAep - sc.p50) / (sc.p50 * ltUnc)) / Math.SQRT2)));
+    for (let z = -3; z <= 3.001; z += 0.05) { xs.push((sc.p50 + z * sd) / 1000); ys.push(100 * (1 - 0.5 * (1 + erf(z / Math.SQRT2)))); }
+    draw("c-exceed", [{ type: "scatter", mode: "lines", x: xs, y: ys, line: { color: css("--s1"), width: 2 }, name: `${n}-year`,
+      hovertemplate: "%{y:.0f}% chance of exceeding %{x:.1f} GWh/yr<extra></extra>" },
+      { type: "scatter", mode: "lines", x: [opAep / 1000, opAep / 1000], y: [0, 100], line: { color: css("--s2"), width: 2, dash: "dash" }, name: "Actual",
+        hovertemplate: `Actual, long-term: %{x:.1f} GWh/yr<br>about P${fmt(ltExceed, 0)} against the uncertainty of a long-term mean<extra></extra>` }],
+      { xaxis: { title: { text: "Annual energy (GWh)" } }, yaxis: { title: { text: "Exceedance probability (%)" }, range: [0, 100] }, showlegend: false,
+        annotations: [{ x: opAep / 1000, y: 96, xanchor: "left", text: ` Actual, long-term (about P${fmt(ltExceed, 0)})`, showarrow: false, font: { color: css("--ink-2"), size: 11 } }] });
+    table("t-unc", ["Component", "Wind speed", "Energy"], EY.uncertainty.map((u) => ({ cells: [u.component, u.speed_pct == null || isNaN(u.speed_pct) ? "" : fmt(u.speed_pct, 1) + "%", fmt(u.energy_pct, 1) + "%"] }))
+      .concat([{ cls: "total", cells: ["Combined (excluding future variability)", "", fmt(EY.historical_uncertainty_pct, 1) + "%"] },
+               { cells: ["Interannual variability, one year", "", fmt(EY.interannual_energy_pct, 1) + "%"] }]), { right: [1, 2] });
+  }
+
+  // ---------- wind actual: month by month with a period filter ----------
+  function buildMonthControls() {
+    const M = W.monthly, from = document.getElementById("m-from"), to = document.getElementById("m-to");
+    const lab = (m) => { const [y, mo] = m.split("-"); return new Date(+y, +mo - 1, 1).toLocaleString("en-CA", { month: "short", year: "numeric" }); };
+    M.month.forEach((m, i) => { from.add(new Option(lab(m), i)); to.add(new Option(lab(m), i)); });
+    from.value = state.mFrom; to.value = state.mTo;
+    from.addEventListener("change", () => { state.mFrom = +from.value; if (state.mFrom > state.mTo) { state.mTo = state.mFrom; to.value = state.mTo; } clearQuick(); renderMonthly(); });
+    to.addEventListener("change", () => { state.mTo = +to.value; if (state.mTo < state.mFrom) { state.mFrom = state.mTo; from.value = state.mFrom; } clearQuick(); renderMonthly(); });
+    const years = [...new Set(M.month.map((m) => m.slice(0, 4)))];
+    const quick = [["all", "All months"], ["scada", "2017 to 2018 (SCADA years)"], ["after", "2019 onwards"], ...years.map((y) => [y, y])];
+    radios("m-quick", "mq", quick, "all", (v) => {
+      const idx = (pred) => M.month.map((m, i) => pred(m) ? i : -1).filter((i) => i >= 0);
+      const pick = v === "all" ? idx(() => true) : v === "scada" ? idx((m) => m >= "2017" && m < "2019") : v === "after" ? idx((m) => m >= "2019") : idx((m) => m.startsWith(v));
+      state.mFrom = Math.min(...pick); state.mTo = Math.max(...pick); from.value = state.mFrom; to.value = state.mTo; renderMonthly();
+    });
+    function clearQuick() { document.querySelectorAll("#m-quick input").forEach((i) => { i.checked = false; }); }
+  }
+  function renderMonthly() {
+    const M = W.monthly, f = state.p50Factor = scenario().p50 / p50c;
+    const ix = M.month.map((m, i) => i).filter((i) => i >= state.mFrom && i <= state.mTo);
+    const pick = (a) => ix.map((i) => a[i]);
+    const months = pick(M.month), act = pick(M.actual), pred = pick(M.predicted).map((v) => v * f);
+    const ratio = act.map((a, k) => a / pred[k]);
+    const sa = act.reduce((x, y) => x + y, 0), sp = pred.reduce((x, y) => x + y, 0);
+    document.getElementById("f-monthly").innerHTML =
+      `Across <b>${months.length} complete month${months.length > 1 ? "s" : ""}</b> the farm metered ${gwh(sa)} GWh against ${gwh(sp)} GWh predicted for the same weather: <b>${signed(100 * (sa / sp - 1))}%</b>` + (isCentral() ? "" : " (with your assumptions)") + `. ` +
+      `Over the full record the gap is widest in light-wind summer months, which fits over-predicted wake losses (they cost most below rated wind), though a seasonal bias in the monthly index could add to it. ` +
+      `The first four months after commercial operation were close to prediction, and September and October 2020 fell below it because the whole farm was off for 14 days (26 September to 9 October 2020, seen in the meter data).`;
+    const best = ratio.indexOf(Math.max(...ratio)), worst = ratio.indexOf(Math.min(...ratio));
+    document.getElementById("m-tiles").innerHTML = [["Actual, selected months", gwh(sa) + " GWh"], ["Predicted, same weather", gwh(sp) + " GWh"],
+      ["Highest month", `${months[best]} (${signed(100 * (ratio[best] - 1), 0)}%)`], ["Lowest month", `${months[worst]} (${signed(100 * (ratio[worst] - 1), 0)}%)`]]
+      .map(([k, v]) => `<div class="pval"><div class="k">${k}</div><div class="v" style="font-size:18px">${v}</div></div>`).join("");
+    draw("c-monthly", [
+      { type: "bar", x: months, y: act, name: "Actual (metered)", marker: { color: css("--s1") }, hovertemplate: "%{x}: %{y:,.0f} MWh actual<extra></extra>" },
+      { type: "scatter", mode: "lines+markers", x: months, y: pred, name: "Predicted (P50 for that month's wind)", line: { color: css("--s2"), width: 2 }, marker: { size: 6 }, hovertemplate: "%{x}: %{y:,.0f} MWh predicted<extra></extra>" }],
+      { yaxis: { title: { text: "Energy (MWh)" } }, xaxis: { type: "category", tickangle: -45, nticks: 20 }, hovermode: "x unified", legend: { y: 1.08, x: 0 }, margin: { l: 56, r: 12, t: 30, b: 60 } });
+    draw("c-ratio", [{ type: "bar", x: months, y: ratio.map((r) => 100 * (r - 1)), marker: { color: ratio.map((r) => r >= 1 ? css("--pos") : css("--neg")) },
+      hovertemplate: "%{x}: %{y:+.1f}% against prediction<extra></extra>", name: "Actual against predicted" }],
+      { yaxis: { title: { text: "Actual vs predicted (%)" }, zeroline: true }, xaxis: { type: "category", tickangle: -45, nticks: 20 }, showlegend: false, margin: { l: 56, r: 12, t: 8, b: 60 } });
+    const years = [...new Set(M.month.map((m) => m.slice(0, 4)))];
+    table("t-yearly", ["Year", "Months", "Actual MWh", "Predicted MWh", "Actual against predicted"], years.map((y) => {
+      const k = M.month.map((m, i) => m.startsWith(y) ? i : -1).filter((i) => i >= 0);
+      const a = k.reduce((s, i) => s + M.actual[i], 0), p = k.reduce((s, i) => s + M.predicted[i] * f, 0);
+      return { cells: [y, k.length, fmt(a), fmt(p), signed(100 * (a / p - 1)) + "%"] };
+    }), { right: [1, 2, 3, 4] });
+  }
+
+  // ---------- wind actual: the gap waterfall follows the selected assumptions ----------
+  function gapSteps() {
+    const sc = scenario(), mw = MEAS.wake_loss_pct[state.model];
+    const items = [
+      ["Site flow (terrain speed-up, measured)", "uniform", "+" + fmt(100 * (MEAS.flow_eff - 1), 1) + "% net", MEAS.flow_eff],
+      ["Power curve and turbine performance", fmt(state.perf, 1) + "%", fmt(100 * (1 - MEAS.pc_eff), 1) + "%", MEAS.pc_eff / (1 - state.perf / 100)],
+      ["Wakes (internal, measured on site)", fmt(sc.wake, 1) + "%", fmt(mw, 1) + "%", (1 - mw / 100) / (1 - sc.wake / 100)],
+      ["Availability (turbine, balance of plant, grid)", fmt(100 - state.avail, 1) + "%", fmt(100 * (1 - MEAS.avail_eff), 1) + "%", MEAS.avail_eff / (state.avail / 100)],
+      ["Electrical losses", fmt(state.elec, 1) + "%", fmt(100 * (1 - MEAS.elec_eff), 1) + "%", MEAS.elec_eff / (1 - state.elec / 100)],
+      ["Curtailment", "0.0%", fmt(100 * (1 - MEAS.curt_eff), 1) + "%", MEAS.curt_eff],
+    ];
+    let e = sc.p50; const out = items.map(([step, a, m, f]) => { const ch = e * f - e; e += ch; return { step, a, m, ch }; });
+    out.push({ step: "Environmental allowance, long-term method and other (residual)", a: "", m: "", ch: MEAS.target_mwh - e });
+    return { p50: sc.p50, steps: out, target: MEAS.target_mwh, wake: sc.wake, mw };
+  }
+  function renderGap() {
+    const g = gapSteps(), gapAll = g.target - g.p50, resid = g.steps[g.steps.length - 1].ch, wakeStep = g.steps[2];
+    const who = isCentral() ? "the central assumptions" : "your assumptions";
+    // shares of the gap only make sense while there is a clear gap to share out
+    const explain = gapAll > 0.02 * g.p50
+      ? `With ${who} (P50 ${gwh(g.p50)} GWh/yr), replacing each assumption with its measured value explains ${fmt(100 * (1 - resid / gapAll), 0)}% of the difference. <b>Wake losses</b> are ${fmt(100 * wakeStep.ch / gapAll, 0)}% of it: the model expected ${fmt(g.wake, 1)}%, the farm lost about ${fmt(g.mw, 1)}%. ` +
+        `${gwh(resid, 2)} GWh/yr (${fmt(100 * resid / g.p50, 1)}% of the P50) is left: the environmental and external wake allowances, the long-term method, and effects not measured. `
+      : `With ${who} the P50 (${gwh(g.p50)} GWh/yr) is ${gapAll <= 0 ? "at or above" : "within 2% of"} that figure, so there is little or no gap left to share out. The waterfall still shows how each measured value moves the estimate: wakes ${signed(wakeStep.ch / 1000, 2)} GWh/yr, with ${signed(resid / 1000, 2)} GWh/yr left at the end. `;
+    document.getElementById("f-gap").innerHTML =
+      `Turbine SCADA covers 2017 and 2018, so the gap is explained for those two years, when the farm produced <b>${signed(100 * (PA.actual_over_predicted_gap_years - 1))}%</b> more than the central prediction (${gwh(g.target)} GWh/yr on a long-term basis). ` +
+      explain +
+      `From 2019 the farm ran ${signed(100 * (PA.actual_over_predicted_after_gap_years - 1))}% above the central prediction, lower than in 2017 and 2018, partly because of the 2020 outages.`;
+    const SHORT = (s) => s.split(" (")[0].replace("Power curve and turbine performance", "Power curve").replace("Environmental allowance, long-term method and other", "Residual").replace("Wakes", "Wakes");
+    const x = ["P50", ...g.steps.map((s) => SHORT(s.step)), "Actual, 2017 to 2018"];
+    const y = [g.p50, ...g.steps.map((s) => s.ch), g.target];
+    draw("c-gap", [{ type: "waterfall", orientation: "v", x, y, measure: ["absolute", ...g.steps.map(() => "relative"), "total"], cliponaxis: false,
+      text: y.map((v, i) => i === 0 || i === y.length - 1 ? gwh(v) : signed(v / 1000, 2)), textposition: "outside", textfont: { color: css("--ink-2") }, connector: { line: { color: css("--line") } },
+      increasing: { marker: { color: css("--pos") } }, decreasing: { marker: { color: css("--neg") } }, totals: { marker: { color: css("--total") } },
+      hovertemplate: "%{x}<br>%{y:,.0f} MWh<extra></extra>" }],
+      { yaxis: { title: { text: "MWh per year" }, range: [Math.min(g.p50, g.target) * 0.9, Math.max(g.p50, g.target) * 1.05] }, xaxis: { tickangle: -30 }, showlegend: false, margin: { l: 64, r: 12, t: 24, b: 70 } });
+    table("t-gap", ["Step", "Assumed", "Measured", "MWh/yr"], g.steps.map((s) => ({ cells: [s.step, s.a, s.m, signed(s.ch, 0)] })), { right: [1, 2, 3] });
+    document.getElementById("gap-note").innerHTML =
+      `The measured wake loss is an estimate: the model's loss scaled by the measured-to-modelled deficit at 5 to 11 m/s, after a terrain adjustment. Without the adjustment it is ${fmt(OPS.measured_wake_loss_without_terrain_adjustment_pct, 1)}%. ` +
+      `Either way every model over-predicted wakes; the central Park model by ${fmt(OPS.wake_model_error_in_standard_deviations, 1)} times its assumed uncertainty. Niayifar and TurbOPark use turbulence from nacelle anemometers (${fmt(100 * R.data_quality.free_stream_turbulence_intensity_10ms, 1)}% at 10 m/s), which reads higher than ambient.`;
+  }
+
+  // ---------- solar: year filter and example days ----------
+  function renderSolar() {
+    const SR = S.results, sys = SR.system, M = S.monthly;
+    const ix = M.month.map((m, i) => i).filter((i) => state.year === "all" || M.month[i].startsWith(state.year));
+    const sum = (k) => ix.reduce((s, i) => s + M[k][i], 0);
+    const a = sum("actual_kwh"), e = sum("expected_kwh"), eu = sum("expected_unclipped_kwh"), poa = sum("poa_kwh_m2");
+    const pi = a / e, pr = (a / sys.fitted_dc_capacity_kw) / poa, avail = 1 - sum("outage_n") / sum("daylight_n");
+    const outPct = 100 * sum("outage_kwh") / eu, snowPct = 100 * sum("snow_kwh") / eu;
+    const per = state.year === "all" ? sys.period : (ix.length < 12 ? `${state.year} (${ix.length} months)` : state.year);
+    document.getElementById("f-solar").innerHTML =
+      `NREL monitored PV system in Golden, Colorado (fixed tilt ${sys.tilt_deg}°, facing ${sys.azimuth_deg}°; rated ${fmt(SR.independent_estimate.rated_size_kw_dc, 1)} kW DC, ${fmt(sys.fitted_dc_capacity_kw, 2)} kW effective from the clear-sky fit), ${per}. ` +
+      `Actual energy was <b>${signed(100 * (pi - 1), 1)}%</b> against the satellite-irradiance model, daylight availability <b>${fmt(100 * avail, 1)}%</b>. ` +
+      `The monthly index rises in winter. That fits snow on the ground reflecting extra light onto the steep array, which the model's fixed ground reflectance leaves out; no snow records were used to confirm it.`;
+    document.getElementById("solar-kpis").innerHTML = [["Performance index", fmt(pi, 3)], ["Performance ratio", fmt(pr, 2)], ["Outage loss", pct(outPct, 2)], ["Snow loss", pct(snowPct, 2)]]
+      .map(([k, v]) => `<div class="pval"><div class="k">${k}</div><div class="v">${v}</div></div>`).join("");
+    const months = ix.map((i) => M.month[i]);
+    draw("c-solar-monthly", [
+      { type: "bar", x: months, y: ix.map((i) => M.actual_kwh[i]), name: "Actual", marker: { color: css("--s1") }, hovertemplate: "%{x}: %{y:,.0f} kWh actual<extra></extra>" },
+      { type: "scatter", mode: "lines+markers", x: months, y: ix.map((i) => M.expected_kwh[i]), name: "Expected (pvlib model)", line: { color: css("--s2"), width: 2 }, marker: { size: 6 }, hovertemplate: "%{x}: %{y:,.0f} kWh expected<extra></extra>" }],
+      { yaxis: { title: { text: "Energy (kWh)" } }, xaxis: { type: "category", tickangle: -45 }, hovermode: "x unified", legend: { y: 1.08, x: 0 }, margin: { l: 56, r: 12, t: 30, b: 60 } });
+    draw("c-solar-pi", [{ type: "scatter", mode: "lines+markers", x: months, y: ix.map((i) => M.performance_index[i]), line: { color: css("--s1"), width: 2 }, marker: { size: 6 }, hovertemplate: "%{x}: index %{y:.3f}<extra></extra>" },
+      { type: "scatter", mode: "lines", x: [months[0], months[months.length - 1]], y: [1, 1], line: { color: css("--ink-3"), width: 1, dash: "dot" }, hoverinfo: "skip" }],
+      { yaxis: { title: { text: "Performance index" } }, xaxis: { type: "category", tickangle: -45 }, showlegend: false, margin: { l: 56, r: 12, t: 8, b: 60 } });
+    const sc = S.scatter;
+    draw("c-solar-scatter", [{ type: "scattergl", mode: "markers", x: sc.expected, y: sc.actual, marker: { color: css("--s1"), size: 5, opacity: 0.35 }, hovertemplate: "expected %{x:.2f} kW<br>actual %{y:.2f} kW<extra></extra>" },
+      { type: "scatter", mode: "lines", x: [0, 3.5], y: [0, 3.5], line: { color: css("--ink-3"), width: 1, dash: "dot" }, hoverinfo: "skip" }],
+      { xaxis: { title: { text: "Expected (kW)" } }, yaxis: { title: { text: "Actual (kW)" } }, showlegend: false });
+    // waterfall for the selected period
+    const clip = sum("clipping_kwh"), out = sum("outage_kwh"), snow = sum("snow_kwh");
+    const steps = [["Expected", eu, "absolute"], ["Clipping", -clip, "relative"], ["Outages", -out, "relative"], ["Suspected snow cover", -snow, "relative"],
+      ["Other (net)", a - (eu - clip - out - snow), "relative"], ["Actual", null, "total"]].filter((s) => s[0] !== "Clipping" || Math.abs(s[1]) >= 0.5);
+    const yv = steps.map((s) => s[1]);
+    draw("c-solar-waterfall", [{ type: "waterfall", x: steps.map((s) => s[0]), y: yv, measure: steps.map((s) => s[2]), cliponaxis: false,
+      text: steps.map((s, i) => i === 0 ? fmt(s[1]) : i === steps.length - 1 ? fmt(a) : signed(s[1], 0)), textposition: "outside", textfont: { color: css("--ink-2") }, connector: { line: { color: css("--line") } },
+      increasing: { marker: { color: css("--pos") } }, decreasing: { marker: { color: css("--neg") } }, totals: { marker: { color: css("--total") } }, hovertemplate: "%{x}<br>%{y:,.0f} kWh<extra></extra>" }],
+      { yaxis: { title: { text: "Energy (kWh)" }, range: [Math.min(eu, a) * 0.9, Math.max(eu, a) * 1.05] }, xaxis: { tickangle: -25 }, showlegend: false, margin: { l: 64, r: 12, t: 24, b: 80 } });
+    const T = SR.totals;
+    document.getElementById("f-solar-loss").innerHTML =
+      `For ${state.year === "all" ? "the whole record" : state.year}, outages cost ${pct(outPct, 2)} and suspected snow cover ${pct(snowPct, 2)} of expected energy. Clipping is not material: ${fmt(sys.clipped_daytime_intervals_pct, 1)}% of daylight intervals were flagged, under the 1% screening level used here. Heat costs ${pct(T.temperature_loss_pct, 1)} inside the model (with a fixed wind speed, as the weather file has none). ` +
+      `December 2013 shows the largest outage. The DC capacity is fitted to the same data, so the index measures the model's fit outside clear skies more than an absolute performance level.`;
+    table("t-solar-year", ["Year", "Months", "Actual kWh", "Expected kWh", "Index", "Specific yield kWh/kWp (gaps filled)"],
+      SR.yearly.map((r) => ({ cells: [r.measured_on ?? r.year, r.months, fmt(r.actual_kwh), fmt(r.expected_kwh), fmt(r.performance_index, 3), fmt(r.specific_yield_kwh_per_kwp)] })), { right: [1, 2, 3, 4, 5] });
+    renderDay();
+  }
+  function renderSolarEstimate() {
+    const E = S.results.independent_estimate, P1 = E.p_values.find((r) => r.period_years === 1), P10 = E.p_values.find((r) => r.period_years === 10), C = E.on_site_sensor_check;
+    const yrs = E.years, act = yrs.reduce((s, r) => s + r.actual_kwh, 0) / yrs.length, pred = yrs.reduce((s, r) => s + r.predicted_same_weather_kwh, 0) / yrs.length;
+    document.getElementById("f-sest").innerHTML =
+      `Before looking at any output, the system's energy was estimated the way a desk study would: NREL's rated size (${fmt(E.rated_size_kw_dc, 1)} kW DC for this half of the array), the generic PVWatts losses (${fmt(E.total_loss_pct, 1)}% in total), ageing of ${fmt(E.degradation_per_year_pct, 1)}% a year since ${E.installed}, and satellite irradiance corrected to 25 years of ERA5. ` +
+      `The long-term P50 is <b>${fmt(E.p50_kwh)} kWh a year</b> at the age it had in 2012 and 2013. It produced <b>${fmt(E.actual_vs_predicted_same_weather_pct, 1)}% more</b> than the estimate for the same weather, ${E.actual_mean_exceedance_level < 1 ? "beyond the P1 level" : `about the P${fmt(E.actual_mean_exceedance_level, 0)} level`}, so well outside the estimate's own uncertainty. ` +
+      `The satellite irradiance was not the cause: NREL's on-site sensor read ${signed(100 * (C.measured_over_satellite_poa - 1), 1)}% against it (${signed(100 * (C.measured_over_satellite_poa_clear_days - 1), 1)}% on clear days). The generic losses and ageing were: measured against the on-site sensor, the system turned ${fmt(100 * C.performance_ratio_vs_rated_size, 0)}% of its rated output into energy, where the estimate assumed ${fmt(100 * C.estimate_performance_ratio_vs_rated_size, 0)}%.`;
+    const k = (lab, v) => `<div class="pval"><div class="k">${lab}</div><div class="v" style="font-size:18px">${v}</div></div>`;
+    document.getElementById("sest-kpis").innerHTML = [k("Estimate, P50 (kWh/yr)", fmt(E.p50_kwh)), k("Estimate, P90 10-year (kWh/yr)", fmt(P10.P90_kwh)),
+      k("Actual, 2012 and 2013 average (kWh/yr)", fmt(act)), k("Actual against estimate, same weather", signed(E.actual_vs_predicted_same_weather_pct, 1) + "%")].join("");
+    const G = E.gap_waterfall, n = G.length;
+    draw("c-sest-gap", [{ type: "waterfall", x: G.map((g) => g.step.replace(" for the same weather", "").replace(" (measured)", "").replace(" (measured outages)", "").replace(" (model and irradiance differences, net)", " (net)")),
+      y: G.map((g, i) => i === n - 1 ? null : g.kwh), measure: G.map((g, i) => i === 0 ? "absolute" : i === n - 1 ? "total" : "relative"), cliponaxis: false,
+      text: G.map((g, i) => i === 0 || i === n - 1 ? fmt(g.kwh) : signed(g.kwh, 0)), textposition: "outside", textfont: { color: css("--ink-2") }, connector: { line: { color: css("--line") } },
+      increasing: { marker: { color: css("--pos") } }, decreasing: { marker: { color: css("--neg") } }, totals: { marker: { color: css("--total") } }, hovertemplate: "%{x}<br>%{y:,.0f} kWh<extra></extra>" }],
+      { yaxis: { title: { text: "Energy, two years (kWh)" }, range: [G[0].kwh * 0.9, G[n - 1].kwh * 1.06] }, xaxis: { tickangle: -25 }, showlegend: false, margin: { l: 64, r: 12, t: 24, b: 96 } });
+    table("t-sest", ["Item", "Assumed", "Measured"], [
+      { cells: ["Effective DC capacity (rated size after ageing and DC losses)", fmt(E.effective_capacity_assumed_kw, 2) + " kW", fmt(E.effective_capacity_measured_kw, 2) + " kW"] },
+      { cells: ["Availability loss", pct(E.pvwatts_losses_pct.Availability, 1), pct(E.outage_loss_test_years_pct, 1)] },
+      { cells: ["Snow loss", pct(E.pvwatts_losses_pct.Snow, 1), pct(E.snow_loss_test_years_pct, 1)] },
+      { cells: ["Share of rated output turned into energy (performance ratio)", fmt(C.estimate_performance_ratio_vs_rated_size, 2), fmt(C.performance_ratio_vs_rated_size, 2)] },
+      { cells: ["Irradiance on the panels: on-site sensor against the satellite data used", "", signed(100 * (C.measured_over_satellite_poa - 1), 1) + "%"] },
+      { cells: ["Year-to-year variation of irradiance (ERA5, 25 years)", pct(E.interannual_variability_pct, 1), ""] },
+      { cells: ["Uncertainty of the estimate, one year (one standard deviation)", pct(P1.total_uncertainty_pct, 1), ""] }], { right: [1, 2] });
+  }
+  const DAYTEXT = {
+    clear: ["Clear day", "On a clear day measured power follows the model closely; clear periods like this were used to fit the DC capacity."],
+    cloudy: ["Broken cloud", "Under broken cloud the 30-minute satellite irradiance cannot follow fast changes, so actual and expected power cross back and forth even though the daily totals agree."],
+    snow: ["Suspected snow cover", "On a cold day with suspected snow cover the model expects normal output but the array produces little until the snow slides or melts. These days are counted as snow loss, not as a fault."],
+    outage: ["Outage", "On the day with the most outage time the array produced almost nothing through hours of good daylight. Output under 5% of expected counts as an outage, so a fully snow-covered array would also land here."],
+  };
+  function renderDay() {
+    const d = S.days[state.day] || S.days.clear, t = DAYTEXT[state.day] || DAYTEXT.clear;
+    document.getElementById("day-title").textContent = `${t[0]}, ${d.date} (kW)`;
+    document.getElementById("f-days").innerHTML = t[1];
+    draw("c-day", [{ type: "scatter", mode: "lines", x: d.time, y: d.actual, name: "Actual", line: { color: css("--s1"), width: 2 }, hovertemplate: "%{x}: %{y:.2f} kW<extra>actual</extra>" },
+      { type: "scatter", mode: "lines", x: d.time, y: d.expected, name: "Expected", line: { color: css("--s2"), width: 2, dash: "dash" }, hovertemplate: "%{x}: %{y:.2f} kW<extra>expected</extra>" }],
+      { yaxis: { title: { text: "Power (kW)" } }, xaxis: { type: "category", nticks: 12 }, hovermode: "x unified" });
+  }
+
+  // ---------- turbine health: machine learning normal-behaviour model ----------
+  const H = D.health, HR = H.results, HA = HR.accuracy, HT = Object.keys(H.turbines).sort();
+  const avg = (a) => a.reduce((x, y) => x + y, 0) / a.length;
+  const R_count = (arr) => arr.reduce((n, v) => n + (v ? 1 : 0), 0);
+  function healthEvents(thr) {
+    const flag = {};
+    HT.forEach((t) => { flag[t] = H.turbines[t].residual.map((v) => v != null && v < -thr); });
+    const day = H.days.map((d, i) => {
+      const assessed = HT.filter((t) => H.turbines[t].residual[i] != null), f = assessed.filter((t) => flag[t][i]);
+      return { assessed: assessed.length, flagged: f, farm: assessed.length >= HR.setup.farm_wide_min_turbines && f.length / assessed.length >= HR.setup.farm_wide_share };
+    });
+    const agg = (pairs) => {
+      let a = 0, e = 0, op = 0;
+      pairs.forEach(([t, i]) => { const T = H.turbines[t]; a += T.actual[i]; e += T.expected[i]; op += (T.op_loss_pct[i] || 0) * T.actual[i] / 100; });
+      return { res: 100 * (a / e - 1), short: e - a, op: a > 0 ? 100 * op / a : 0 };
+    };
+    const ev = [];
+    day.forEach((d, i) => { if (d.farm) ev.push({ scope: "farm-wide", turbines: `${d.flagged.length} of ${d.assessed}`, start: H.days[i], end: H.days[i], days: 1, ...agg(d.flagged.map((t) => [t, i])), status: H.day_status[i] || "" }); });
+    HT.forEach((t) => {
+      let run = [];
+      const close = () => { if (run.length) { const msgs = [...new Set(run.flatMap((i) => (H.turbines[t].status[i] || "").split("; ").filter(Boolean)))].sort().join("; ");
+        ev.push({ scope: "turbine", turbines: t, start: H.days[run[0]], end: H.days[run[run.length - 1]], days: run.length, ...agg(run.map((i) => [t, i])), status: msgs }); } run = []; };
+      H.days.forEach((d, i) => { if (flag[t][i] && !day[i].farm) { if (run.length && run[run.length - 1] !== i - 1) close(); run.push(i); } });
+      close();
+    });
+    ev.sort((x, y) => (x.scope === y.scope ? (x.start < y.start ? -1 : x.start > y.start ? 1 : 0) : x.scope === "farm-wide" ? -1 : 1));
+    let fa = 0, fop = 0, ua = 0, uop = 0;
+    HT.forEach((t) => H.turbines[t].residual.forEach((v, i) => { if (v == null) return; const T = H.turbines[t], op = (T.op_loss_pct[i] || 0) * T.actual[i] / 100;
+      if (flag[t][i] && !day[i].farm) { fa += T.actual[i]; fop += op; } else if (!flag[t][i]) { ua += T.actual[i]; uop += op; } }));
+    const assessed = HT.reduce((n, t) => n + H.turbines[t].residual.filter((v) => v != null).length, 0);
+    const flaggedN = HT.reduce((n, t) => n + R_count(flag[t]), 0);
+    return { events: ev, flag, day, opFlagged: fa ? 100 * fop / fa : 0, opOther: ua ? 100 * uop / ua : 0, flaggedShare: 100 * flaggedN / assessed };
+  }
+  function renderHealthModel() {
+    const t = state.hTurbine, A = H.accuracy, i = A.turbine.indexOf(t);
+    document.getElementById("f-h-model").innerHTML =
+      `One model per turbine (gradient-boosted trees in scikit-learn) learns the power a healthy turbine produces from nacelle wind speed, turbulence, wind direction, and ERA5 air temperature and density; above the 25 m/s cut-out it expects zero, as the turbine stops by design. Gradient boosting had the lowest cross-validated error within 2017 of six model types tried, on every turbine. ` +
+      `Trained on 2017 and tested on 2018, which it never saw, its mean absolute error is <b>${fmt(HA.mae_reduction_pct, 0)}% lower</b> than each turbine's own power curve built from the same data (${fmt(HA.mae_kw_model, 1)} kW against ${fmt(HA.mae_kw_power_curve, 1)} kW) and its root mean square error ${fmt(HA.rmse_reduction_pct, 0)}% lower, for all ${A.turbine.length} turbines. ` +
+      `What matters for monitoring is the spread of daily results: ${fmt(HA.daily_residual_std_pct_model, 1)}% for the model against ${fmt(HA.daily_residual_std_pct_power_curve, 1)}% for the power curve, so smaller shortfalls stand out. ` +
+      `The gain comes from turbulence, temperature and direction, which a power curve ignores; the model is weaker than the curve between 16 and 25 m/s, where storms are rare in one year of training data. Over 2018 the turbines produced ${fmt(Math.abs(avg(A.energy_bias_pct_model)), 1)}% ${avg(A.energy_bias_pct_model) >= 0 ? "more" : "less"} than the models expected (power curve: ${signed(HA.energy_bias_pct_power_curve, 1)}%), mostly in July and August.`;
+    const k = (lab, v) => `<div class="pval"><div class="k">${lab}</div><div class="v" style="font-size:18px">${v}</div></div>`;
+    const sel = i >= 0 ? (key) => A[key][i] : (key) => avg(A[key]);
+    document.getElementById("h-acc-tiles").innerHTML = [k(`Model error, ${i >= 0 ? t : "farm average"}`, fmt(sel("mae_kw_model"), 1) + " kW"),
+      k("Power curve error, same data", fmt(sel("mae_kw_power_curve"), 1) + " kW"), k("R squared, model", fmt(sel("r2_model"), 3)),
+      k("2018 energy, actual against expected", signed(sel("energy_bias_pct_model"), 1) + "%")].join("");
+    draw("c-h-acc", [
+      { type: "bar", orientation: "h", y: A.turbine, x: A.mae_kw_power_curve, name: "Power curve (method of bins)", marker: { color: css("--muted-mark") }, hovertemplate: "%{y}: %{x:.1f} kW<extra>power curve</extra>" },
+      { type: "bar", orientation: "h", y: A.turbine, x: A.mae_kw_model, name: "Machine learning model", marker: { color: A.turbine.map((x) => x === t ? css("--s2") : css("--s1")) }, hovertemplate: "%{y}: %{x:.1f} kW<extra>model</extra>" }],
+      { barmode: "group", xaxis: { title: { text: "Mean absolute error (kW)" } }, yaxis: { type: "category", autorange: "reversed" }, legend: { y: 1.1, x: 0 }, margin: { l: 44, r: 12, t: 36, b: 44 } });
+    const I = H.importance;
+    draw("c-h-imp", [{ type: "bar", orientation: "h", y: I.feature, x: I.share.map((v) => 100 * v), marker: { color: css("--s1") }, hovertemplate: "%{y}: %{x:.1f}%<extra></extra>" }],
+      { xaxis: { title: { text: "Share of importance (%), log scale" }, type: "log", tickvals: [0.1, 1, 10, 100], ticktext: ["0.1", "1", "10", "100"] }, yaxis: { autorange: "reversed", type: "category" }, showlegend: false, margin: { l: 170, r: 12, t: 8, b: 40 } });
+    const st = i >= 0 ? t : "T06", sc = H.scatter[st];
+    document.getElementById("h-scatter-title").textContent = `${st}, a sample of 2018: actual and expected power against nacelle wind speed (kW)`;
+    draw("c-h-scatter", [
+      { type: "scattergl", mode: "markers", x: sc.wind, y: sc.actual, name: "Actual", marker: { color: css("--s1"), size: 5, opacity: 0.45 }, hovertemplate: "%{x:.1f} m/s: %{y:.0f} kW<extra>actual</extra>" },
+      { type: "scattergl", mode: "markers", x: sc.wind, y: sc.expected, name: "Expected by the model", marker: { color: css("--s2"), size: 4, opacity: 0.6 }, hovertemplate: "%{x:.1f} m/s: %{y:.0f} kW<extra>expected</extra>" }],
+      { xaxis: { title: { text: "Nacelle wind speed (m/s)" } }, yaxis: { title: { text: "Power (kW)" } }, legend: { y: -0.25 } });
+  }
+  function renderHealthDays() {
+    const thr = state.hThr, t = state.hTurbine, R = healthEvents(thr), M = HR.monitoring;
+    document.getElementById("o-h-thr").textContent = fmt(thr, 1) + "%";
+    const farm = R.events.filter((e) => e.scope === "farm-wide"), tur = R.events.filter((e) => e.scope === "turbine");
+    document.getElementById("f-h-days").innerHTML =
+      `Each day, a turbine's actual energy is compared with what its model expected over the hours it was available (days with at least 5 MWh expected). ` +
+      `At ${fmt(thr, 1)}% below expected, <b>${farm.length} day${farm.length === 1 ? "" : "s"}</b> hit most turbines at once and <b>${tur.length} single-turbine event${tur.length === 1 ? "" : "s"}</b> remain${tur.length === 1 ? "s" : ""}. ` +
+      `A shortfall shared by most turbines points outside the turbines (an external power limit, weather, site-wide control); the status log column shows what was logged across the site that day. ` +
+      `A shortfall at one turbine points at that turbine; its own status messages are listed. On single-turbine flag days the operator's performance-loss figure averages ${fmt(R.opFlagged, 1)}%, against ${fmt(R.opOther, 1)}% on other days. That figure compares the same power with a default curve, so it moves with these results and supports them rather than proving them.`;
+    const k = (lab, v) => `<div class="pval"><div class="k">${lab}</div><div class="v" style="font-size:18px">${v}</div></div>`;
+    document.getElementById("h-day-tiles").innerHTML = [k("Farm-wide days", farm.length), k("Single-turbine events", `${tur.length} (${tur.reduce((a, e) => a + e.days, 0)} days)`),
+      k("Shortfall on single-turbine days", fmt(tur.reduce((a, e) => a + e.short, 0), 1) + " MWh"), k("Shortfall on farm-wide days", fmt(farm.reduce((a, e) => a + e.short, 0), 1) + " MWh")].join("");
+    const lab = H.days;
+    if (!HT.includes(t)) {
+      document.getElementById("h-days-title").textContent = "All turbines, 2018: daily actual against expected energy (%). Orange is a shortfall; blank days had too little wind to judge.";
+      draw("c-h-days", [{ type: "heatmap", x: lab, y: HT, z: HT.map((x) => H.turbines[x].residual), zmin: -10, zmax: 10, hoverongaps: false,
+        colorscale: [[0, css("--neg")], [0.5, css("--surface")], [1, css("--s1")]], colorbar: { title: { text: "%", font: { color: css("--ink-2") } }, tickfont: { color: css("--ink-2") }, thickness: 10, outlinewidth: 0 },
+        hovertemplate: "%{y}, %{x}: %{z:+.1f}%<extra></extra>" }],
+        { yaxis: { type: "category", autorange: "reversed" }, xaxis: { type: "date" }, margin: { l: 44, r: 12, t: 8, b: 40 } });
+    } else {
+      const T = H.turbines[t];
+      document.getElementById("h-days-title").textContent = `${t}, 2018: daily actual against expected energy (%), with the median of all turbines`;
+      const col = T.residual.map((v, i) => R.flag[t][i] ? (R.day[i].farm ? css("--muted-mark") : css("--neg")) : css("--s1"));
+      const tip = T.residual.map((v, i) => v == null ? "" : `${signed(v, 1)}% (expected ${fmt(T.expected[i], 1)} MWh)<br>mean wind ${fmt(T.wind[i], 1)} m/s, operator loss ${fmt(T.op_loss_pct[i], 1)}%` + (T.status[i] ? `<br>${T.status[i].slice(0, 90)}` : ""));
+      draw("c-h-days", [
+        { type: "bar", x: lab, y: T.residual, name: t, marker: { color: col }, customdata: tip, hovertemplate: "%{x}: %{customdata}<extra></extra>" },
+        { type: "scatter", mode: "lines", x: lab, y: H.fleet_median, name: "Median of all turbines", line: { color: css("--ink-3"), width: 1 }, connectgaps: false, hoverinfo: "skip" },
+        { type: "scatter", mode: "lines", x: [lab[0], lab[lab.length - 1]], y: [-thr, -thr], name: "Threshold", line: { color: css("--neg"), width: 1, dash: "dash" }, hoverinfo: "skip" }],
+        { yaxis: { title: { text: "Actual against expected (%)" } }, xaxis: { type: "date" }, legend: { y: 1.1, x: 0 }, bargap: 0.1, margin: { l: 56, r: 12, t: 30, b: 40 } });
+    }
+    const rows = R.events.filter((e) => !HT.includes(t) || e.scope === "farm-wide" || e.turbines === t);
+    table("t-h-events", ["Dates", "Scope", "Turbines", "Actual against expected", "Shortfall MWh", "Operator performance loss", "Status log"],
+      rows.map((e) => ({ cells: [e.start === e.end ? e.start : `${e.start} to ${e.end}`, e.scope === "farm-wide" ? "Farm-wide" : "Single turbine", e.turbines, signed(e.res, 1) + "%", fmt(e.short, 1), fmt(e.op, 1) + "%", e.status || "none logged"] })),
+      { right: [3, 4, 5] });
+    document.getElementById("h-note").innerHTML =
+      `Intervals at or above the 25 m/s cut-out are left out, so designed storm shutdowns are not counted as shortfalls. The models learn 2017 as normal: training drops points far from each turbine's typical power (${fmt(HA.train_points_dropped_pct, 1)}%), but a fault that lasted through 2017 would still be learned as normal. The threshold trades missed events against false alarms: at ${fmt(thr, 1)}%, ${fmt(R.flaggedShare, 1)}% of the ${fmt(HR.monitoring.turbine_days_assessed)} turbine-days assessed are flagged.`;
+  }
+
+  // ---------- tabs and start-up ----------
+  const rendered = {};
+  function renderReport() {
+    const G = PA.waterfall, gap = PA.gap_target_mwh - EY.p50_mwh, wakeShare = 100 * G[2].change_mwh / gap, resid = G[G.length - 1].change_mwh;
+    const HM = HR.monitoring, T = S.results.totals, SE = S.results.independent_estimate, pv10 = pv(10);
+    const items = [
+      `<b>The estimate.</b> A pre-construction style assessment gives a net P50 of <b>${gwh(EY.p50_mwh)} GWh per year</b> (${fmt(EY.p50_capacity_factor_pct, 1)}% capacity factor) and a 10-year P90 of ${gwh(pv10.P90_mwh)} GWh.`,
+      `<b>The test.</b> The farm produced <b>${signed(100 * (PA.actual_over_predicted - 1))}%</b> against the prediction over ${PA.months_compared} months. Its long-term production of ${gwh(PA.operational_aep_ratio_method_mwh)} GWh per year sits at about the <b>P${fmt(PA.exceedance_level_long_term_pct, 0)}</b> level: conservative, but inside the estimate's uncertainty.`,
+      `<b>The explanation.</b> For 2017 and 2018, measured losses explain <b>${fmt(100 * (1 - resid / gap), 0)}%</b> of the gap. Over-predicted wake losses are the largest cause (${fmt(OPS.measured_wake_loss_pct[CENTRAL], 1)}% measured against ${fmt(EY.wake_models[CENTRAL].wake_loss_pct, 1)}% modelled, ${fmt(wakeShare, 0)}% of the gap), followed by availability (${fmt(OPS.energy_availability_pct, 1)}% against ${fmt(DEF.avail, 1)}% assumed), electrical losses and the power curve. Even the classic onshore Park setting over-predicted wakes by ${fmt(OPS.wake_model_error_in_standard_deviations, 1)} times its assumed uncertainty.`,
+      `<b>Machine learning.</b> A normal-behaviour model per turbine predicts power with <b>${fmt(HA.mae_reduction_pct, 0)}% lower error</b> than each turbine's power curve on a year it never saw, and nearly halves the spread of daily results (${fmt(HA.daily_residual_std_pct_model, 1)}% against ${fmt(HA.daily_residual_std_pct_power_curve, 1)}%). At a 5% threshold it separates ${HM.farm_wide_days.length} farm-wide shortfall days from ${HM.turbine_events} single-turbine events; the clearest is T06, about 3% below its normal through June 2018.`,
+      `<b>Solar (NREL system, Golden, Colorado).</b> An independent estimate from the rated size, generic losses and long-term irradiance was <b>${fmt(SE.actual_vs_predicted_same_weather_pct, 1)}% below</b> actual production in 2012 and 2013, outside its own uncertainty. The satellite irradiance was right (within ${fmt(Math.abs(100 * (SE.on_site_sensor_check.measured_over_satellite_poa - 1)), 1)}% of the on-site sensor); the generic losses and ageing were too cautious. Daylight availability was ${fmt(T.time_availability_pct, 1)}%, with ${fmt(T.outage_loss_pct, 2)}% outage loss and ${fmt(T.snow_loss_pct, 2)}% suspected snow loss.`,
+      `<b>Data quality.</b> Checking the meters against each other and against the turbines found a corrupt day of revenue meter data, a stuck wind vane, a meter counter gap and a 14-day outage of the whole farm. Each would have distorted a loss figure if left in.`,
+    ];
+    document.getElementById("conclusions").innerHTML = items.map((x) => `<li>${x}</li>`).join("");
+  }
+  const renderers = { yield: () => { renderResource(); renderWakes(); renderPvals(); }, actual: () => { renderMonthly(); renderGap(); renderSector(); renderTerrain(); }, health: () => { renderHealthModel(); renderHealthDays(); }, solar: () => { renderSolarEstimate(); renderSolar(); }, method: renderReport };
+  function show(name) {
+    document.querySelectorAll(".tab").forEach((t) => t.setAttribute("aria-selected", t.id === "tab-" + name ? "true" : "false"));
+    document.querySelectorAll(".view").forEach((v) => { v.hidden = v.id !== "view-" + name; });
+    document.getElementById("scenario").hidden = !(name === "yield" || name === "actual");
+    if (!rendered[name]) { rendered[name] = true; renderers[name](); }
+    else document.querySelectorAll("#view-" + name + " .chart").forEach((c) => Plotly.Plots.resize(c));
+    try { history.replaceState(null, "", "#" + name); } catch (e) {}
+  }
+  document.querySelectorAll(".tab").forEach((t) => t.addEventListener("click", () => show(t.id.slice(4))));
+  buildScenarioBar();
+  buildMonthControls();
+  radios("turbs", "turb", [["all", "Farm"], ...W.layout.turbine.map((t) => [t, t])], "all", (v) => { state.turbine = v === "all" ? null : v; renderWakes(); });
+  radios("models2", "model2", MODELS.map((k) => [k, EY.wake_models[k].label.replace(/, .*$/, "").replace(/ \(.*\)/, "")]), state.model2, (v) => { state.model2 = v; renderSector(); });
+  radios("periods", "period", [[1, "1 year"], [10, "10 years"], [20, "20 years"]], state.period, (v) => { state.period = +v; renderPvals(); });
+  radios("h-turbs", "hturb", [["all", "All turbines"], ...HT.map((t) => [t, t])], "all", (v) => { state.hTurbine = v; renderHealthModel(); renderHealthDays(); });
+  document.getElementById("s-h-thr").addEventListener("input", (e) => { state.hThr = +e.target.value; renderHealthDays(); });
+  radios("s-years", "syear", [["all", "All"], ...[...new Set(S.monthly.month.map((m) => m.slice(0, 4)))].map((y) => [y, y])], "all", (v) => { state.year = v; renderSolar(); });
+  radios("days", "day", Object.keys(DAYTEXT).filter((k) => S.days[k]).map((k) => [k, DAYTEXT[k][0]]), state.day, (v) => { state.day = v; renderDay(); });
+  renderKpis();
+  const start = (location.hash || "").slice(1);
+  show(["yield", "actual", "health", "solar", "method"].includes(start) ? start : "yield");
+  matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => { Object.keys(rendered).forEach((k) => { rendered[k] = false; }); show(document.querySelector('.tab[aria-selected="true"]').id.slice(4)); });
+})();
+
+</script>
+</body>
+</html>

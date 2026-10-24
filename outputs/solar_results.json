@@ -1,0 +1,265 @@
+{
+  "system": {
+    "source": "NREL PVDAQ system 50 (via PVAnalytics example data)",
+    "location": "Golden, Colorado",
+    "latitude": 39.7406,
+    "longitude": -105.1775,
+    "tilt_deg": 45.0,
+    "azimuth_deg": 158.0,
+    "period": "May 2011 to December 2013",
+    "fitted_dc_capacity_kw": 2.789,
+    "peak_measured_ac_kw": 3.368,
+    "clipped_daytime_intervals_pct": 0.202
+  },
+  "data_quality": {
+    "valid_pct": 96.42,
+    "clear_sky_r2_as_stamped": 0.81,
+    "clear_sky_r2_aligned": 0.825,
+    "clock_shift_changes": [
+      {
+        "date": "2011-04-15",
+        "shift_min": -60
+      },
+      {
+        "date": "2011-11-06",
+        "shift_min": 0
+      },
+      {
+        "date": "2012-03-12",
+        "shift_min": -60
+      },
+      {
+        "date": "2012-11-04",
+        "shift_min": 0
+      },
+      {
+        "date": "2013-03-10",
+        "shift_min": -60
+      },
+      {
+        "date": "2013-11-03",
+        "shift_min": 0
+      }
+    ]
+  },
+  "totals": {
+    "actual_kwh": 13252.0,
+    "expected_kwh": 12922.0,
+    "performance_index": 1.0255,
+    "performance_ratio": 0.919,
+    "expected_performance_ratio": 0.8961,
+    "time_availability_pct": 98.83,
+    "clipping_loss_pct": 0.0,
+    "outage_loss_pct": 0.75,
+    "snow_loss_pct": 0.72,
+    "temperature_loss_pct": 5.4
+  },
+  "yearly": [
+    {
+      "measured_on": 2011,
+      "actual_kwh": 3472.87841796875,
+      "expected_kwh": 3427.9969,
+      "poa_kwh_m2": 1382.64,
+      "outage_kwh": 11.4379,
+      "snow_kwh": 22.3721,
+      "expected_in_gaps_kwh": 66.6063,
+      "months": 8,
+      "performance_index": 1.0131,
+      "performance_ratio": 0.9006,
+      "energy_gap_filled_kwh": 3540.3568,
+      "specific_yield_kwh_per_kwp": 1269.463
+    },
+    {
+      "measured_on": 2012,
+      "actual_kwh": 4868.646484375,
+      "expected_kwh": 4655.0803,
+      "poa_kwh_m2": 1868.1438,
+      "outage_kwh": 13.2643,
+      "snow_kwh": 20.1235,
+      "expected_in_gaps_kwh": 269.7782,
+      "months": 12,
+      "performance_index": 1.0459,
+      "performance_ratio": 0.9345,
+      "energy_gap_filled_kwh": 5150.8016,
+      "specific_yield_kwh_per_kwp": 1846.919
+    },
+    {
+      "measured_on": 2013,
+      "actual_kwh": 4910.81201171875,
+      "expected_kwh": 4839.3342,
+      "poa_kwh_m2": 1920.0544,
+      "outage_kwh": 72.6273,
+      "snow_kwh": 50.4326,
+      "expected_in_gaps_kwh": 89.8553,
+      "months": 12,
+      "performance_index": 1.0148,
+      "performance_ratio": 0.9171,
+      "energy_gap_filled_kwh": 5001.9945,
+      "specific_yield_kwh_per_kwp": 1793.5613
+    }
+  ],
+  "waterfall": [
+    {
+      "step": "Expected, before inverter limit",
+      "kwh": 12922.41,
+      "pct_of_expected": 100.0
+    },
+    {
+      "step": "Inverter clipping (modelled)",
+      "kwh": -0.0,
+      "pct_of_expected": -0.0
+    },
+    {
+      "step": "Outages (no output in daylight)",
+      "kwh": -97.33,
+      "pct_of_expected": -0.75
+    },
+    {
+      "step": "Suspected snow cover",
+      "kwh": -92.93,
+      "pct_of_expected": -0.72
+    },
+    {
+      "step": "Other (model error and unmodelled effects, net)",
+      "kwh": 520.18,
+      "pct_of_expected": 4.03
+    },
+    {
+      "step": "Actual",
+      "kwh": 13252.34,
+      "pct_of_expected": 102.55
+    }
+  ],
+  "independent_estimate": {
+    "method": "Rated size from NREL metadata, PVWatts default losses, 0.5 percent per year ageing, pvlib chain on NSRDB satellite weather, long-term corrected by month to 25 years of ERA5 (2000 to 2024)",
+    "rated_size_kw_dc": 3.0,
+    "installed": "March 1996",
+    "degradation_per_year_pct": 0.5,
+    "pvwatts_losses_pct": {
+      "Soiling": 2.0,
+      "Shading": 3.0,
+      "Snow": 0.0,
+      "Mismatch": 2.0,
+      "Wiring": 2.0,
+      "Connections": 0.5,
+      "Light-induced degradation": 1.5,
+      "Nameplate rating": 1.0,
+      "Availability": 3.0
+    },
+    "total_loss_pct": 14.08,
+    "ageing_factor_test_years": 0.916,
+    "long_term_factors": {
+      "1": 0.9707,
+      "2": 1.0217,
+      "3": 0.9652,
+      "4": 0.9936,
+      "5": 0.9929,
+      "6": 0.9672,
+      "7": 1.0129,
+      "8": 0.99,
+      "9": 1.0379,
+      "10": 0.9813,
+      "11": 0.9895,
+      "12": 0.9881
+    },
+    "p50_new_kwh": 4616.0,
+    "p50_kwh": 4228.0,
+    "p50_specific_yield_kwh_per_kw": 1409.0,
+    "interannual_variability_pct": 1.22,
+    "uncertainty_pct": {
+      "Long-term irradiance (satellite data and long-term correction)": 5.0,
+      "Plane-of-array transposition and PV model": 3.0,
+      "Rated size (channel share and nameplate tolerance)": 2.5,
+      "System losses (soiling, shading, mismatch, wiring, availability)": 3.0,
+      "Ageing (0.5 plus or minus 0.25 percent per year over 16 years)": 4.0
+    },
+    "historical_uncertainty_pct": 8.08,
+    "p_values": [
+      {
+        "period_years": 1,
+        "total_uncertainty_pct": 8.2,
+        "P50_kwh": 4228.2,
+        "P75_kwh": 3995.2,
+        "P90_kwh": 3785.5
+      },
+      {
+        "period_years": 10,
+        "total_uncertainty_pct": 8.1,
+        "P50_kwh": 4228.2,
+        "P75_kwh": 3997.5,
+        "P90_kwh": 3790.0
+      }
+    ],
+    "years": [
+      {
+        "year": 2012,
+        "predicted_same_weather_kwh": 4219.6849,
+        "actual_kwh": 5150.8016,
+        "actual_vs_predicted_pct": 22.066,
+        "era5_irradiance_index": 1.009,
+        "ageing_factor": 0.9185
+      },
+      {
+        "year": 2013,
+        "predicted_same_weather_kwh": 4200.7469,
+        "actual_kwh": 5001.9945,
+        "actual_vs_predicted_pct": 19.0739,
+        "era5_irradiance_index": 1.0026,
+        "ageing_factor": 0.9135
+      }
+    ],
+    "actual_vs_predicted_same_weather_pct": 20.57,
+    "actual_mean_vs_p50_pct": 20.06,
+    "actual_mean_exceedance_level": 0.7,
+    "effective_capacity_assumed_kw": 2.434,
+    "effective_capacity_measured_kw": 2.789,
+    "outage_loss_test_years_pct": 0.9,
+    "snow_loss_test_years_pct": 0.74,
+    "gap_waterfall": [
+      {
+        "step": "Independent estimate for the same weather",
+        "kwh": 8420.43,
+        "pct_of_estimate": 100.0
+      },
+      {
+        "step": "Effective DC capacity and DC losses (measured)",
+        "kwh": 1226.76,
+        "pct_of_estimate": 14.57
+      },
+      {
+        "step": "Availability (measured outages)",
+        "kwh": 208.39,
+        "pct_of_estimate": 2.47
+      },
+      {
+        "step": "Snow (measured)",
+        "kwh": -73.24,
+        "pct_of_estimate": -0.87
+      },
+      {
+        "step": "Other (model and irradiance differences, net)",
+        "kwh": 370.45,
+        "pct_of_estimate": 4.4
+      },
+      {
+        "step": "Actual",
+        "kwh": 10152.8,
+        "pct_of_estimate": 120.57
+      }
+    ],
+    "on_site_sensor_check": {
+      "days_sampled": 243,
+      "days_used": 171,
+      "measured_over_satellite_poa": 1.0151,
+      "measured_over_satellite_poa_clear_days": 0.9946,
+      "performance_ratio_vs_rated_size": 0.8554,
+      "estimate_performance_ratio_vs_rated_size": 0.7081,
+      "stream_over_channel2_energy": 0.9999,
+      "channel2_share_of_ac_energy_range": [
+        0.5,
+        0.507
+      ],
+      "channel_share_days": 8
+    }
+  }
+}

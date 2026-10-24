@@ -1,0 +1,466 @@
+{
+  "site": {
+    "turbines": 14,
+    "capacity_mw": 28.7,
+    "hub_height_m": 59.0,
+    "rotor_diameter_m": 82.0,
+    "era5_grid_point": [
+      55.75,
+      -2.25
+    ]
+  },
+  "data_quality": {
+    "scada_valid_pct": 99.58,
+    "virtual_mast_hourly_recovery_pct": 99.66,
+    "virtual_mast_mean_turbines": 4.84,
+    "free_stream_turbulence_intensity_10ms": 0.126,
+    "meter_to_turbine_daily_median_ratio": 0.9903,
+    "meter_days_replaced": [
+      "2017-05-20"
+    ]
+  },
+  "wind_resource": {
+    "campaign": "2017 virtual met mast at 59 m",
+    "campaign_mean_ms": 7.551,
+    "long_term_mean_ms": 7.254,
+    "era5_desk_study_hub_mean_ms": 6.987,
+    "era5_bias_vs_site_pct": -3.68,
+    "weibull_A": 8.191,
+    "weibull_k": 2.169,
+    "air_density_kgm3": 1.2135,
+    "long_term_period": "2000 to 2024",
+    "reference_interannual_variability_pct": 3.87,
+    "campaign_year_wind_index": 1.0484,
+    "hourly_r2_era5_100m": 0.789,
+    "hourly_r2_era5_100m_2017": 0.771,
+    "daily_r2_era5_100m": 0.904,
+    "monthly_r2_era5_100m": 0.952,
+    "shear_exponent_median": 0.186,
+    "direction_offset_site_minus_era5_deg": -7.7,
+    "direction_offset_mean_deg": -6.5,
+    "mcp_cross_validation_energy_error_pct": [
+      {
+        "fit_year": 2017,
+        "test_year": 2018,
+        "Scaled measured distribution (used)": -2.13,
+        "Hourly variance ratio": 4.5,
+        "Hourly linear regression": 2.49,
+        "Machine learning (gradient boosting)": -0.55
+      },
+      {
+        "fit_year": 2018,
+        "test_year": 2017,
+        "Scaled measured distribution (used)": -0.56,
+        "Hourly variance ratio": 8.47,
+        "Hourly linear regression": 6.23,
+        "Machine learning (gradient boosting)": -1.02
+      }
+    ]
+  },
+  "energy_yield": {
+    "gross_mwh": 84922.0,
+    "gross_capacity_factor_pct": 33.75,
+    "wake_models": {
+      "jensen": {
+        "label": "Jensen Park (1983), k = 0.075, onshore setting",
+        "wake_loss_pct": 9.77,
+        "net_of_wake_mwh": 76625.0
+      },
+      "bastankhah": {
+        "label": "Bastankhah Gaussian (2014), default expansion",
+        "wake_loss_pct": 12.03,
+        "net_of_wake_mwh": 74703.0
+      },
+      "turbopark": {
+        "label": "TurbOPark (Nygaard 2022), site turbulence",
+        "wake_loss_pct": 12.52,
+        "net_of_wake_mwh": 74293.0
+      },
+      "niayifar": {
+        "label": "Niayifar Gaussian (2016), site turbulence",
+        "wake_loss_pct": 8.34,
+        "net_of_wake_mwh": 77840.0
+      }
+    },
+    "central_wake_model": "Jensen Park (1983), k = 0.075, onshore setting",
+    "loss_chain": [
+      {
+        "loss": "Wake effect, internal (modelled)",
+        "group": "Wakes",
+        "loss_pct": 9.771,
+        "efficiency_pct": 90.229,
+        "lost_mwh": 8297.336,
+        "energy_after_mwh": 76624.559
+      },
+      {
+        "loss": "Wake effect, external (neighbouring wind farms)",
+        "group": "Wakes",
+        "loss_pct": 0.5,
+        "efficiency_pct": 99.5,
+        "lost_mwh": 383.123,
+        "energy_after_mwh": 76241.436
+      },
+      {
+        "loss": "Turbine availability",
+        "group": "Availability",
+        "loss_pct": 3.0,
+        "efficiency_pct": 97.0,
+        "lost_mwh": 2287.243,
+        "energy_after_mwh": 73954.193
+      },
+      {
+        "loss": "Balance of plant availability",
+        "group": "Availability",
+        "loss_pct": 0.5,
+        "efficiency_pct": 99.5,
+        "lost_mwh": 369.771,
+        "energy_after_mwh": 73584.422
+      },
+      {
+        "loss": "Grid availability",
+        "group": "Availability",
+        "loss_pct": 0.5,
+        "efficiency_pct": 99.5,
+        "lost_mwh": 367.922,
+        "energy_after_mwh": 73216.5
+      },
+      {
+        "loss": "Electrical losses to the revenue meter",
+        "group": "Electrical",
+        "loss_pct": 2.0,
+        "efficiency_pct": 98.0,
+        "lost_mwh": 1464.33,
+        "energy_after_mwh": 71752.17
+      },
+      {
+        "loss": "Turbine performance (sub-optimal operation, high wind hysteresis)",
+        "group": "Turbine performance",
+        "loss_pct": 1.2,
+        "efficiency_pct": 98.8,
+        "lost_mwh": 861.026,
+        "energy_after_mwh": 70891.144
+      },
+      {
+        "loss": "Environmental (icing, blade degradation)",
+        "group": "Environmental",
+        "loss_pct": 0.8,
+        "efficiency_pct": 99.2,
+        "lost_mwh": 567.129,
+        "energy_after_mwh": 70324.015
+      },
+      {
+        "loss": "Curtailment (none known before construction)",
+        "group": "Curtailment",
+        "loss_pct": 0.0,
+        "efficiency_pct": 100.0,
+        "lost_mwh": 0.0,
+        "energy_after_mwh": 70324.015
+      }
+    ],
+    "total_efficiency_pct": 82.81,
+    "p50_mwh": 70324.0,
+    "p50_capacity_factor_pct": 27.95,
+    "sensitivity_ratio": 2.001,
+    "uncertainty": [
+      {
+        "component": "Measurement (nacelle anemometers as a virtual mast)",
+        "basis": "wind speed",
+        "speed_pct": 3.0,
+        "energy_pct": 6.003
+      },
+      {
+        "component": "Long-term correction (12-month campaign, cross-validated)",
+        "basis": "wind speed",
+        "speed_pct": 1.5,
+        "energy_pct": 3.002
+      },
+      {
+        "component": "Long-term reference consistency and period representativeness",
+        "basis": "wind speed",
+        "speed_pct": 1.3,
+        "energy_pct": 2.601
+      },
+      {
+        "component": "Vertical extrapolation (measured at hub height)",
+        "basis": "wind speed",
+        "speed_pct": 0.0,
+        "energy_pct": 0.0
+      },
+      {
+        "component": "Horizontal extrapolation (uniform flow across the site)",
+        "basis": "wind speed",
+        "speed_pct": 2.5,
+        "energy_pct": 5.003
+      },
+      {
+        "component": "Power curve (library curve, not warranted)",
+        "basis": "energy",
+        "speed_pct": null,
+        "energy_pct": 4.0
+      },
+      {
+        "component": "Wake model (20 percent of the wake loss)",
+        "basis": "energy",
+        "speed_pct": null,
+        "energy_pct": 1.954
+      },
+      {
+        "component": "Availability and other loss assumptions",
+        "basis": "energy",
+        "speed_pct": null,
+        "energy_pct": 1.5
+      },
+      {
+        "component": "Electrical losses",
+        "basis": "energy",
+        "speed_pct": null,
+        "energy_pct": 0.5
+      }
+    ],
+    "historical_uncertainty_pct": 9.96,
+    "climate_uncertainty_pct": 1.0,
+    "interannual_energy_pct": 7.74,
+    "p_values": [
+      {
+        "period_years": 1,
+        "total_uncertainty_pct": 12.7,
+        "P50_mwh": 70324.0,
+        "P75_mwh": 64321.7,
+        "P90_mwh": 58919.5,
+        "P99_mwh": 49621.9
+      },
+      {
+        "period_years": 10,
+        "total_uncertainty_pct": 10.3,
+        "P50_mwh": 70324.0,
+        "P75_mwh": 65436.9,
+        "P90_mwh": 61038.4,
+        "P99_mwh": 53468.1
+      },
+      {
+        "period_years": 20,
+        "total_uncertainty_pct": 10.2,
+        "P50_mwh": 70324.0,
+        "P75_mwh": 65506.4,
+        "P90_mwh": 61170.4,
+        "P99_mwh": 53707.9
+      }
+    ],
+    "desk_study_era5_only_p50_mwh": 68443.0,
+    "lt_methods": {
+      "scaled": {
+        "label": "Scaled measured distribution (used)",
+        "gross_mwh": 84921.9,
+        "mean_ms": 7.254,
+        "p50_mwh": 70324.0,
+        "wake_loss_pct": {
+          "jensen": 9.771,
+          "bastankhah": 12.033,
+          "turbopark": 12.516,
+          "niayifar": 8.339
+        }
+      },
+      "linear": {
+        "label": "Hourly linear regression",
+        "gross_mwh": 88749.7,
+        "mean_ms": 7.255,
+        "p50_mwh": 73458.0,
+        "wake_loss_pct": {
+          "jensen": 9.815,
+          "bastankhah": 12.223,
+          "turbopark": 12.72,
+          "niayifar": 8.431
+        }
+      },
+      "variance_ratio": {
+        "label": "Hourly variance ratio",
+        "gross_mwh": 90301.3,
+        "mean_ms": 7.25,
+        "p50_mwh": 75370.0,
+        "wake_loss_pct": {
+          "jensen": 9.057,
+          "bastankhah": 11.385,
+          "turbopark": 11.837,
+          "niayifar": 7.796
+        }
+      },
+      "ml": {
+        "label": "Machine learning (gradient boosting)",
+        "gross_mwh": 84670.2,
+        "mean_ms": 7.31,
+        "p50_mwh": 70561.0,
+        "wake_loss_pct": {
+          "jensen": 9.197,
+          "bastankhah": 11.375,
+          "turbopark": 11.834,
+          "niayifar": 7.9
+        }
+      },
+      "era5": {
+        "label": "ERA5 alone, no site data",
+        "gross_mwh": 83110.9,
+        "mean_ms": 6.987,
+        "p50_mwh": 68443.0,
+        "wake_loss_pct": {
+          "jensen": 10.271,
+          "bastankhah": 12.748,
+          "turbopark": 13.285,
+          "niayifar": 8.827
+        }
+      }
+    }
+  },
+  "operational": {
+    "scada_period": "2017 to 2018",
+    "turbine_energy_mwh": 162054.0,
+    "energy_availability_pct": 97.78,
+    "operator_downtime_loss_mwh": 3679.0,
+    "own_downtime_loss_mwh": 2531.0,
+    "electrical": {
+      "intervals": 101030.0,
+      "turbine_mwh": 155380.031,
+      "meter_mwh": 153857.895,
+      "loss_pct": 0.98
+    },
+    "curtailed_time_pct": 0.212,
+    "curtailment_loss_pct": 0.0,
+    "curtailment_loss_pct_from_setpoint_dec2018_jun2021": 0.012,
+    "curtailment_held_intervals_dec2018_jun2021": 66,
+    "measured_wake_loss_pct": {
+      "jensen": 4.53,
+      "bastankhah": 4.74,
+      "turbopark": 4.72,
+      "niayifar": 4.59
+    },
+    "measured_wake_loss_without_terrain_adjustment_pct": 6.08,
+    "terrain_speed_factor_range": [
+      0.913,
+      1.042
+    ],
+    "terrain_vs_elevation_r": 0.839,
+    "site_flow_energy_effect_pct": 0.16,
+    "power_curve_energy_effect_pct": -0.44,
+    "operator_performance_loss_pct": -0.031,
+    "wake_model_error_in_standard_deviations": 2.68,
+    "terrain_free_intervals_min": [
+      "T09",
+      252
+    ],
+    "sector_deficit_measured": 0.0662,
+    "sector_deficit_model": {
+      "jensen": 0.1428,
+      "bastankhah": 0.1681,
+      "turbopark": 0.1755,
+      "niayifar": 0.1203
+    },
+    "per_turbine_share_range": [
+      0.841,
+      1.165
+    ]
+  },
+  "predicted_vs_actual": {
+    "months_compared": 58,
+    "period": "September 2016 to June 2021",
+    "actual_mwh": 375482.0,
+    "predicted_mwh": 344240.0,
+    "actual_over_predicted": 1.0908,
+    "yearly": [
+      {
+        "time": 2016,
+        "actual_mwh": 22967.277,
+        "predicted_mwh": 23221.195,
+        "months": 4,
+        "ratio": 0.989
+      },
+      {
+        "time": 2017,
+        "actual_mwh": 84126.246,
+        "predicted_mwh": 75102.827,
+        "months": 12,
+        "ratio": 1.12
+      },
+      {
+        "time": 2018,
+        "actual_mwh": 76342.822,
+        "predicted_mwh": 67493.069,
+        "months": 12,
+        "ratio": 1.131
+      },
+      {
+        "time": 2019,
+        "actual_mwh": 76657.982,
+        "predicted_mwh": 68349.372,
+        "months": 12,
+        "ratio": 1.122
+      },
+      {
+        "time": 2020,
+        "actual_mwh": 80082.678,
+        "predicted_mwh": 78031.564,
+        "months": 12,
+        "ratio": 1.026
+      },
+      {
+        "time": 2021,
+        "actual_mwh": 35305.423,
+        "predicted_mwh": 32042.178,
+        "months": 6,
+        "ratio": 1.102
+      }
+    ],
+    "operational_aep_ratio_method_mwh": 76706.0,
+    "operational_aep_regression_mwh": 76851.0,
+    "regression_r2": 0.95,
+    "gap_mwh": 6382.0,
+    "gap_pct": 9.08,
+    "exceedance_level_long_term_pct": 18.2,
+    "gap_basis": "2017 to 2018",
+    "actual_over_predicted_gap_years": 1.1253,
+    "actual_over_predicted_after_gap_years": 1.0764,
+    "gap_target_mwh": 79139.0,
+    "waterfall": [
+      {
+        "step": "Site flow (terrain speed-up, measured)",
+        "assumed_loss_pct": 0.0,
+        "measured_loss_pct": -0.2,
+        "change_mwh": 113.4
+      },
+      {
+        "step": "Power curve and turbine performance",
+        "assumed_loss_pct": 1.2,
+        "measured_loss_pct": 0.4,
+        "change_mwh": 544.6
+      },
+      {
+        "step": "Wakes (internal, measured on site)",
+        "assumed_loss_pct": 9.8,
+        "measured_loss_pct": 4.5,
+        "change_mwh": 4124.0
+      },
+      {
+        "step": "Availability (turbine, balance of plant, grid)",
+        "assumed_loss_pct": 4.0,
+        "measured_loss_pct": 2.2,
+        "change_mwh": 1367.1
+      },
+      {
+        "step": "Electrical losses",
+        "assumed_loss_pct": 2.0,
+        "measured_loss_pct": 1.0,
+        "change_mwh": 796.2
+      },
+      {
+        "step": "Curtailment",
+        "assumed_loss_pct": 0.0,
+        "measured_loss_pct": 0.0,
+        "change_mwh": 0.0
+      },
+      {
+        "step": "Environmental allowance, long-term method and other (residual)",
+        "assumed_loss_pct": null,
+        "measured_loss_pct": null,
+        "change_mwh": 1869.2
+      }
+    ]
+  }
+}

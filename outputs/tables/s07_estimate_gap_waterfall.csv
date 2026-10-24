@@ -1,0 +1,7 @@
+step,kwh,pct_of_estimate
+Independent estimate for the same weather,8420.43,100.0
+Effective DC capacity and DC losses (measured),1226.76,14.57
+Availability (measured outages),208.39,2.47
+Snow (measured),-73.24,-0.87
+"Other (model and irradiance differences, net)",370.45,4.4
+Actual,10152.8,120.57

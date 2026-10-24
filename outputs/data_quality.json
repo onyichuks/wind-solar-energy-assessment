@@ -1,0 +1,127 @@
+{
+  "scada": {
+    "turbines": 14,
+    "intervals": 1471680,
+    "valid_pct": 99.58,
+    "frozen_wind_direction": 101,
+    "frozen_wind_speed": 0,
+    "anemometer_error_codes": 109,
+    "energy_over_power_ratio_range": [
+      1.0002,
+      1.0008
+    ],
+    "direction_offset_range_deg": [
+      -1.9,
+      2.0
+    ],
+    "timing": {
+      "step_counts": {
+        "0 days 00:10:00": 1471666
+      },
+      "rows_per_day": [
+        2016
+      ],
+      "era5_best_lag_minutes_summer_time": 30,
+      "era5_best_lag_minutes_winter_time": 20,
+      "note": "ERA5 matches SCADA best when ERA5 is taken this many minutes after the SCADA stamp; the same lag in summer and winter means the SCADA clock is UTC all year"
+    }
+  },
+  "meters": {
+    "grid_meter_period": [
+      "2016-07-01",
+      "2019-09-30"
+    ],
+    "pmu_period": [
+      "2018-04-05",
+      "2021-06-30"
+    ],
+    "grid_meter_half_hourly_share_pct": 100.0,
+    "grid_meter_negative_intervals": 93,
+    "export_missing_intervals": 6,
+    "pmu_to_grid_ratio": 1.002,
+    "daily_meter_to_turbine_median_ratio": 0.9903,
+    "outage_days_after_sept_2016": 16
+  },
+  "meter_events": [
+    {
+      "start": "2017-05-20",
+      "end": "2017-05-20",
+      "meter": "grid meter",
+      "event": "daily energy does not match the turbine meters",
+      "detail": "meter 121.6 MWh against turbines 93.3 MWh",
+      "handling": "day replaced by turbine energy less the median electrical loss"
+    },
+    {
+      "start": "2018-04-21",
+      "end": "2018-05-16",
+      "meter": "PMU",
+      "event": "one energy value repeated (counter gap spread evenly)",
+      "detail": "3640 intervals at 1309.4 kWh",
+      "handling": "left out of the PMU scaling factor; grid meter used for these dates"
+    },
+    {
+      "start": "2020-06-09",
+      "end": "2020-06-10",
+      "meter": "PMU",
+      "event": "whole wind farm not exporting",
+      "detail": "2 days, ERA5 mean wind 4.8 m/s, PMU plant power never above 0 kW, roughly 139 MWh not produced",
+      "handling": "real outage: kept in the actual production"
+    },
+    {
+      "start": "2020-09-26",
+      "end": "2020-10-09",
+      "meter": "PMU",
+      "event": "whole wind farm not exporting",
+      "detail": "14 days, ERA5 mean wind 7.1 m/s, PMU plant power never above 114 kW, roughly 2479 MWh not produced",
+      "handling": "real outage: kept in the actual production"
+    }
+  ],
+  "era5": {
+    "hours": 219168,
+    "expected_hours": 219168,
+    "duplicates": 0,
+    "missing_values": 0,
+    "ranges": {
+      "ws10": [
+        0.0,
+        20.5
+      ],
+      "ws100": [
+        0.0,
+        29.9
+      ],
+      "wd100": [
+        0.0,
+        360.0
+      ],
+      "t2m": [
+        -8.1,
+        28.6
+      ],
+      "sp": [
+        935.6,
+        1025.1
+      ]
+    },
+    "annual_mean_ws100_range": [
+      7.13,
+      8.25
+    ],
+    "trend_ms_per_decade": 0.005,
+    "trend_p_value": 0.96
+  },
+  "solar": {
+    "power_steps": {
+      "0 days 00:15:00": 95231
+    },
+    "power_duplicates": 0,
+    "power_missing_pct": 3.05,
+    "power_negative": 0,
+    "power_max_kw": 3.368,
+    "weather_missing_pct": 0.0,
+    "air_temperature_min_c": 0.0,
+    "air_temperature_exact_zero_pct": 23.5,
+    "daylight_hours_at_zero_c_pct": 6.6,
+    "expected_energy_change_if_zero_readings_were_minus5c_pct": 0.1
+  }
+}

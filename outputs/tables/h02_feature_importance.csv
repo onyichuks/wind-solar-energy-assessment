@@ -1,0 +1,7 @@
+feature,share_of_importance,mae_increase_kw
+Nacelle wind speed,0.9713,698.6008
+Turbulence intensity,0.0131,9.4375
+Air temperature (ERA5),0.0087,6.2974
+Wind direction (east-west),0.0027,1.957
+Air density (ERA5),0.0023,1.631
+Wind direction (north-south),0.0018,1.3274

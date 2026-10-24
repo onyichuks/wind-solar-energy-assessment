@@ -1,0 +1,10 @@
+component,basis,speed_pct,energy_pct
+Measurement (nacelle anemometers as a virtual mast),wind speed,3.0,6.003
+"Long-term correction (12-month campaign, cross-validated)",wind speed,1.5,3.002
+Long-term reference consistency and period representativeness,wind speed,1.3,2.601
+Vertical extrapolation (measured at hub height),wind speed,0.0,0.0
+Horizontal extrapolation (uniform flow across the site),wind speed,2.5,5.003
+"Power curve (library curve, not warranted)",energy,,4.0
+Wake model (20 percent of the wake loss),energy,,1.954
+Availability and other loss assumptions,energy,,1.5
+Electrical losses,energy,,0.5

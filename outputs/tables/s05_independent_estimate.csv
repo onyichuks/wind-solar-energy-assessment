@@ -1,0 +1,15 @@
+item,value
+Rated size (kW DC),3.0
+Ageing factor at the test years,0.916
+Soiling loss (fraction),0.02
+Shading loss (fraction),0.03
+Snow loss (fraction),0.0
+Mismatch loss (fraction),0.02
+Wiring loss (fraction),0.02
+Connections loss (fraction),0.005
+Light-induced degradation loss (fraction),0.015
+Nameplate rating loss (fraction),0.01
+Availability loss (fraction),0.03
+Total system loss (fraction),0.1408
+"Long-term P50, as new (kWh per year)",4615.9117
+Long-term P50 at the test years' age (kWh per year),4228.1751
